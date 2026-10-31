@@ -210,16 +210,57 @@
   .lmeta{display:flex; justify-content:space-between; gap:14px; margin-top:14px; font-size:11px; letter-spacing:.14em; color:var(--sub)}
   .lmeta b{color:var(--red); font-weight:600}
   .lmeta .c{color:#ddd; letter-spacing:.04em; font-size:13px; flex:1; text-align:center}
-  .lgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:14px}
-  .lcard{position:relative; border:1px solid var(--line); background:var(--panel); cursor:zoom-in; overflow:hidden; transition:.15s}
+  .lgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(118px,150px)); gap:12px; justify-content:start}
+  .lcard{position:relative; border:1px solid var(--line); background:var(--panel); cursor:pointer; overflow:hidden; transition:.15s}
+  .lcard .cnt{position:absolute; top:6px; right:6px; background:rgba(0,0,0,.72); border:1px solid var(--line); color:#fff; font-size:10px; letter-spacing:.06em; padding:3px 6px; line-height:1}
   .lcard:hover{border-color:var(--red); box-shadow:0 0 14px var(--red-dim)}
   .lcard img{display:block; width:100%; aspect-ratio:1/1; object-fit:cover}
-  .lcard .lm{display:flex; justify-content:space-between; gap:10px; padding:9px 11px; font-size:10px; letter-spacing:.12em; color:var(--sub)}
+  .lcard .lm{display:flex; justify-content:space-between; gap:8px; padding:7px 8px; font-size:9px; letter-spacing:.08em; color:var(--sub)}
   .lcard .lm b{color:var(--red); font-weight:600}
   .lcard .lm span{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-  .lbox{position:fixed; inset:0; z-index:60; background:rgba(0,0,0,.92); display:flex; align-items:center; justify-content:center; padding:30px; cursor:zoom-out}
+  /* ===== 저장 알림 (TOAST) ===== */
+  .toast{position:fixed; left:50%; bottom:46px; transform:translateX(-50%); z-index:80; max-width:min(520px,calc(100vw - 28px)); padding:13px 18px; background:#0b0b0b; border:1px solid var(--line); border-left:3px solid var(--red); color:#eee; font-size:12px; letter-spacing:.04em; line-height:1.6; box-shadow:0 14px 40px rgba(0,0,0,.7); animation:fade .2s ease}
+  .toast[hidden]{display:none}
+  .toast.err{border-color:var(--red); color:#ffb3b3}
+  /* ===== 비밀글 (PASSWORD) ===== */
+  .pwv{position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.8); backdrop-filter:blur(2px); animation:fade .25s ease}
+  .pwv[hidden]{display:none}
+  .pwp{position:relative; width:min(380px,calc(100vw - 28px)); border:1px solid var(--line); display:grid; grid-template-rows:56px auto 34px; box-shadow:0 30px 90px rgba(0,0,0,.85); background-color:#0b0b0b; background-image:linear-gradient(var(--line-soft) 1px, transparent 1px), linear-gradient(90deg, var(--line-soft) 1px, transparent 1px); background-size:40px 40px}
+  .pwp.shake{animation:pwshake .35s}
+  @keyframes pwshake{0%,100%{transform:none} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)}}
+  .pwb{padding:30px 28px 24px; text-align:center; display:flex; flex-direction:column; align-items:center; gap:10px; background:rgba(11,11,11,.82)}
+  .pwb svg{width:32px; height:32px; stroke:var(--red); fill:none; stroke-width:1.5; filter:drop-shadow(0 0 6px var(--red-dim))}
+  .pwb b{font-size:13px; letter-spacing:.14em; color:#fff; font-weight:700}
+  .pwb small{font-size:10px; letter-spacing:.2em; color:#666}
+  .pwb input{width:100%; margin-top:8px; background:#080808; border:1px solid var(--line); color:#fff; padding:13px 12px; text-align:center; letter-spacing:.3em; font:600 15px/1.2 "Pretendard",sans-serif; outline:0; border-radius:0}
+  .pwb input:focus{border-color:var(--red)}
+  .pwb input::placeholder{letter-spacing:.2em; font-size:11px; color:#555; font-weight:400}
+  .pwerr{min-height:15px; font-size:11px; color:#e48a8a; letter-spacing:.06em}
+  .pwb .btn{width:100%; padding:13px 14px}
+  .plk{width:11px; height:11px; stroke:var(--red); fill:none; stroke-width:2; vertical-align:-1px; margin-right:6px; flex:none}
+  .lockbox{margin:34px auto 10px; width:100%; max-width:340px; padding:30px 22px 24px; border:1px solid var(--line); border-left:2px solid var(--red); background:var(--panel); text-align:center; display:flex; flex-direction:column; align-items:center; gap:10px}
+  .lockbox svg{width:30px; height:30px; stroke:var(--red); fill:none; stroke-width:1.5; filter:drop-shadow(0 0 6px var(--red-dim))}
+  .lockbox b{font-size:12px; letter-spacing:.3em; color:#fff}
+  .lockbox p{font-size:12px; color:#777; line-height:1.7; margin-bottom:6px}
+  .lbox{position:fixed; inset:0; z-index:60; background:rgba(0,0,0,.92); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:24px 60px}
   .lbox[hidden]{display:none}
-  .lbox img{max-width:100%; max-height:100%; border:1px solid var(--line)}
+  .lbox img{display:block; max-width:min(92vw,560px); max-height:calc(100vh - 130px); border:1px solid var(--line); border-radius:8px; user-select:none; -webkit-user-drag:none}
+  .lbx{position:absolute; top:14px; right:16px; width:36px; height:36px; border:1px solid var(--line); background:rgba(10,10,10,.75); color:#ccc; font-size:15px; cursor:pointer; z-index:3}
+  .lbx:hover{border-color:var(--red); background:var(--red); color:#fff}
+  .lbn{position:absolute; top:50%; transform:translateY(-50%); width:38px; height:54px; border:1px solid var(--line); background:rgba(10,10,10,.75); color:#ccc; font:300 22px/1 "Pretendard",sans-serif; cursor:pointer; transition:.15s; z-index:2}
+  .lbn.p{left:12px} .lbn.n{right:12px}
+  .lbn:hover:not(:disabled){border-color:var(--red); color:#fff; background:var(--red)}
+  .lbn:disabled{opacity:.25; cursor:default}
+  .lbdots{display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:9px; min-height:7px}
+  .lbdots i{width:7px; height:7px; border-radius:50%; background:#444; cursor:pointer; transition:.15s}
+  .lbdots i:hover{background:#888}
+  .lbdots i.on{background:var(--red); box-shadow:0 0 8px var(--red-dim); transform:scale(1.25)}
+  .lbcnt{font-size:12px; letter-spacing:.14em; color:#ddd; font-weight:600}
+  .lgg{border-bottom:1px dashed var(--line); padding:6px 0 12px}
+  .lths{display:flex; flex-wrap:wrap; gap:9px; align-items:center; padding-left:34px}
+  .lth{position:relative}
+  .lth img{display:block; width:52px; height:52px; object-fit:cover; border:1px solid var(--line)}
+  .lth button{position:absolute; top:-6px; right:-6px; width:18px; height:18px; padding:0; border:0; border-radius:50%; background:var(--red); color:#fff; font-size:11px; line-height:18px; cursor:pointer}
   .frow{display:flex; align-items:center; gap:12px; padding:9px 4px; border-bottom:1px dashed var(--line)}
   .frow .ext{flex:none; min-width:40px; padding:6px; text-align:center; font-size:10px; font-weight:700; color:#e48a8a; border:1px solid var(--red-dim)}
   .frow .nm{flex:1; min-width:0; font-size:12px; color:#ddd; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
@@ -299,7 +340,7 @@
   /* ===== WALKIE-TALKIE (무전 대화 창) ===== */
   .rd{position:fixed; inset:0; z-index:22; display:grid; place-items:center; background:rgba(0,0,0,.78)}
   .rd[hidden]{display:none}
-  .rdp{width:min(400px,calc(100vw - 20px)); height:min(740px,calc(100vh - 20px)); background:#0a0a0a; border:1px solid var(--line); display:flex; flex-direction:column; box-shadow:0 30px 90px rgba(0,0,0,.85); color:#ddd}
+  .rdp{width:min(400px,calc(100vw - 20px)); height:min(540px,calc(100vh - 20px)); background:#0a0a0a; border:1px solid var(--line); display:flex; flex-direction:column; box-shadow:0 30px 90px rgba(0,0,0,.85); color:#ddd}
   .rdt{display:flex; justify-content:space-between; padding:14px 20px 0; font:600 12px/1 ui-monospace,Consolas,monospace; color:#ccc}
   .rdh{display:flex; align-items:center; gap:14px; padding:18px 20px 16px}
   .rdh .bk{background:none; border:0; color:#aaa; font-size:20px; cursor:pointer; padding:0}
@@ -787,7 +828,7 @@
 </div>
 
 <div id="bgmYT"></div>
-<div class="lbox" id="lbox" hidden><img id="lboxImg" alt=""></div>
+<div class="lbox" id="lbox" hidden><button class="lbx" id="lboxX" aria-label="닫기">✕</button><button class="lbn p" data-lbstep="-1" aria-label="이전">‹</button><img id="lboxImg" alt="" draggable="false"><button class="lbn n" data-lbstep="1" aria-label="다음">›</button><div class="lbdots" id="lboxDots"></div><div class="lbcnt" id="lboxCnt">1 / 1</div></div>
 
 <button class="adminbtn" id="adminOpen" title="관리자" aria-label="관리자 열기"></button>
 
@@ -869,6 +910,25 @@
       <div class="vread" id="vread"></div>
     </div>
     <div class="vf"><span id="vstat">0 RECORDS</span><span><b>●</b> <span id="vtag" style="color:inherit">ARCHIVE ONLINE</span></span></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<!-- 비밀번호 팝업 -->
+<div class="pwv" id="pwv" hidden>
+  <div class="pwp" id="pwp">
+    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    <div class="vh"><span class="sp"></span><b>LOCKED</b><small>// PRIVATE RECORD</small><button class="vx" id="pwX" title="닫기"></button></div>
+    <div class="pwb">
+      <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+      <b>비밀번호를 입력하세요</b>
+      <small id="pwSub">// 비밀글</small>
+      <input type="password" id="pwIn" autocomplete="off" placeholder="PASSWORD">
+      <div class="pwerr" id="pwErr"></div>
+      <button class="btn pri" id="pwOk">UNLOCK</button>
+    </div>
+    <div class="vf"><span>ACCESS RESTRICTED</span><span><b>●</b> LOCKED</span></div>
   </div>
 </div>
 
@@ -1331,9 +1391,12 @@ b,strong{color:var(--white);font-weight:700}
     const posts = Array.isArray(j.posts) ? j.posts : DEFAULT.posts;
     const logs = Array.isArray(j.logs) ? j.logs.slice() : [];
     // 예전 데이터: 'log' 카테고리 글은 RECORDS에서 빼고, 거기 있던 이미지는 LOG로 옮겨요
-    posts.filter(p => p.cat === 'log').forEach(p => (p.images || []).forEach((src, i) => {
-      if(!logs.some(l => l.src === src)) logs.push({id:p.id + '_' + i, date:p.date || '', cap:p.title || '', src});
-    }));
+    posts.filter(p => p.cat === 'log').forEach(p => {
+      const imgs = (p.images || []).filter(src => !logs.some(l => l.src === src || (l.srcs || []).includes(src)));
+      if(imgs.length) logs.push({id:p.id + '_0', date:p.date || '', cap:p.title || '', srcs:imgs});
+    });
+    // LOG는 '묶음' 하나에 이미지 여러 장 (예전 한 장짜리 데이터도 한 장 묶음으로 바꿔요)
+    const logGroups = logs.map(l => ({id:l.id, date:l.date || '', cap:l.cap || '', srcs:Array.isArray(l.srcs) ? l.srcs.filter(Boolean) : (l.src ? [l.src] : [])})).filter(l => l.srcs.length);
     return {
       site:{...DEFAULT.site, ...(j.site||{})},
       profile:{...DEFAULT.profile, ...(j.profile||{})},
@@ -1346,7 +1409,7 @@ b,strong{color:var(--white);font-weight:700}
       world:{...DEFAULT.world, ...(j.world||{})},
       cats:(Array.isArray(j.cats) ? j.cats : DEFAULT.cats).filter(c => c.id !== 'log'),
       posts:posts.filter(p => p.cat !== 'log'),
-      logs,
+      logs:logGroups,
       links:Array.isArray(j.links) ? j.links : DEFAULT.links
     };
   };
@@ -1359,7 +1422,21 @@ b,strong{color:var(--white);font-weight:700}
   const postsOf = c => sorted(c === 'all' ? DATA.posts.filter(p => p.cat !== NOTICE) : DATA.posts.filter(p => p.cat === c));
   // ---- 글 서식: **굵게** *기울임* ==형광펜== ~~취소선~~ [글자](주소) / 한 줄에 --- = 구분선 ----
   const plain = s => String(s || '').replace(/<(script|style)[\s\S]*?<\/\1\s*>/gi, ' ').replace(/<\/?[a-zA-Z][^>]*>/g, ' ').replace(/^\s*-{3,}\s*$/gm, ' ').replace(/\[([^\]\n]+)\]\(([^)\s]+)\)/g, '$1').replace(/\*\*|==|~~/g, '').replace(/\*(?!\s)([^*\n]+?)\*/g, '$1');
-  const excerpt = (p,n) => esc(plain(p.body).replace(/\s+/g,' ').trim().slice(0,n));
+  // ---- 비밀글: 글에 pw(암호화된 값)가 있으면 잠금. 한 번 풀면 새로고침 전까지 열려 있어요 ----
+  const pwUnlocked = new Set();
+  const isLocked = p => !!(p && p.pw && !pwUnlocked.has(p.id));
+  const pwHash = (str, salt) => {
+    const t = String(salt) + '\u0001' + String(str); let out = '';
+    for(const seed of [11, 23, 37, 51]){
+      let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+      for(let i = 0; i < t.length; i++){ const c = t.charCodeAt(i); h1 = Math.imul(h1 ^ c, 2654435761); h2 = Math.imul(h2 ^ c, 1597334677); }
+      h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+      h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+      out += (h1 >>> 0).toString(16).padStart(8, '0') + (h2 >>> 0).toString(16).padStart(8, '0');
+    }
+    return out;
+  };
+  const excerpt = (p,n) => isLocked(p) ? '비밀글입니다' : esc(plain(p.body).replace(/\s+/g,' ').trim().slice(0,n));
   const inlineFmt = s => s
     .replace(/\*\*(?!\s)([^\n]+?)\*\*/g, '<b>$1</b>')
     .replace(/==(?!\s)([^\n]+?)==/g, '<mark>$1</mark>')
@@ -1425,19 +1502,12 @@ b,strong{color:var(--white);font-weight:700}
     $('#ddNext').innerHTML = `<div class="row"><div class="lab"><span>NEXT · ${esc(nx.label)}</span><span>${rem === 0 ? 'TODAY' : 'D-' + rem}</span></div><div class="track"><div class="fill" style="width:${pct}%"></div></div></div>`;
   }
 
-  // ============ LOG 슬라이더 (이미지를 넣은 순서대로, ‹ › 와 점으로 넘김) ============
-  let logIdx = 0;
+  // ============ LOG (한 번에 올린 이미지 묶음 = 작은 썸네일 하나, 누르면 ‹ › 로 한 장씩) ============
   function drawLog(){
     const L = DATA.logs, host = $('#logList');
     if(!L.length){ host.innerHTML = '<div class="none">아직 올라온 이미지가 없어요</div>'; return; }
-    logIdx = Math.max(0, Math.min(logIdx, L.length - 1));
-    const l = L[logIdx];
-    host.innerHTML = `<div class="lsl">
-      <div class="lstage"><button class="lnav p" data-lstep="-1" ${logIdx === 0 ? 'disabled' : ''} aria-label="이전">‹</button><img data-lb="${esc(l.id)}" src="${esc(imgSrc(l.src))}" alt="${esc(l.cap)}" draggable="false"><button class="lnav n" data-lstep="1" ${logIdx >= L.length - 1 ? 'disabled' : ''} aria-label="다음">›</button></div>
-      ${L.length > 1 ? `<div class="ldots">${L.length <= 20 ? L.map((x,i) => `<i data-ldot="${i}" class="${i === logIdx ? 'on' : ''}"></i>`).join('') : ''}</div>` : ''}
-      <div class="lmeta"><b>${esc(l.date)}</b><span class="c">${esc(l.cap)}</span><span>${logIdx + 1} / ${L.length}</span></div></div>`;
+    host.innerHTML = L.map(g => `<div class="lcard" data-lb="${esc(g.id)}"><img src="${esc(imgSrc(g.srcs[0]))}" alt="${esc(g.cap)}" draggable="false" loading="lazy">${g.srcs.length > 1 ? `<span class="cnt">${g.srcs.length}장</span>` : ''}<div class="lm"><b>${esc(g.date)}</b><span>${esc(g.cap)}</span></div></div>`).join('');
   }
-  const logStep = d => { const k = logIdx + d; if(k >= 0 && k < DATA.logs.length){ logIdx = k; drawLog(); } };
 
   // ============ HOME 단말기 화면 ============
   let homeDone = false;
@@ -1816,7 +1886,7 @@ b,strong{color:var(--white);font-weight:700}
     $('#recLinks').innerHTML = `<div class="link" data-open="all"><b>ARCHIVE</b><i>기록 전체 보기</i></div>` +
       recCats().map(c => `<div class="link" data-open="cat:${esc(c.id)}"><b>${esc(c.name.toUpperCase())}</b><i>${esc(c.sub)}</i></div>`).join('');
 
-    const item = p => `<li data-open="post:${esc(p.id)}" style="cursor:pointer"><span class="d">${esc(p.date)}</span><span class="t">${esc(p.title)}<span>${excerpt(p,60)}</span></span><span class="tag">${esc(catOf(p.cat).name.toUpperCase())}</span></li>`;
+    const item = p => `<li data-open="post:${esc(p.id)}" style="cursor:pointer"><span class="d">${esc(p.date)}</span><span class="t">${p.pw ? '<svg class="plk" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>' : ''}${esc(p.title)}<span>${excerpt(p,60)}</span></span><span class="tag">${esc(catOf(p.cat).name.toUpperCase())}</span></li>`;
     const all = postsOf('all'), notices = postsOf(NOTICE);
     $('#noticeList').innerHTML = notices.length ? notices.slice(0,3).map(item).join('') : '<div class="none">아직 공지가 없어요</div>';
     $('#latest').innerHTML = all.length ? all.slice(0,3).map(item).join('') : '<div class="none">아직 기록이 없어요</div>';
@@ -1838,8 +1908,34 @@ b,strong{color:var(--white);font-weight:700}
     else { cat = t === 'cat' ? v : 'all'; sel = null; reading = false; }
     mode = cat === NOTICE ? 'notice' : 'records';
     vault.hidden = false; draw();
+    if(t === 'post') askLock();
   }
   const closeVault = () => vault.hidden = true;
+  function lockedView(p, i, list){
+    return `<span class="tg">${esc(catOf(p.cat).name.toUpperCase())}</span><h2>${esc(p.title)}</h2><div class="dt">${esc(p.date)}</div>
+      <div class="lockbox"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><b>LOCKED</b><p>비밀번호가 걸려 있는 글이에요</p><button class="btn pri" data-pwopen="${esc(p.id)}">비밀번호 입력</button></div>
+      <div class="vnav"><button data-step="1" ${i >= list.length-1 ? 'disabled' : ''}>◂ PREV</button><button data-step="-1" ${i <= 0 ? 'disabled' : ''}>NEXT ▸</button></div>`;
+  }
+  // 비밀번호 팝업
+  let pwTarget = null;
+  function pwOpen(id){
+    const p = DATA.posts.find(x => x.id === id); if(!p || !p.pw) return;
+    pwTarget = id; $('#pwIn').value = ''; $('#pwErr').textContent = ''; $('#pwSub').textContent = '// ' + String(p.title || '').slice(0, 28);
+    $('#pwv').hidden = false; setTimeout(() => $('#pwIn').focus(), 40);
+  }
+  function pwClose(){ $('#pwv').hidden = true; pwTarget = null; }
+  function pwTry(){
+    const p = DATA.posts.find(x => x.id === pwTarget); if(!p){ pwClose(); return; }
+    if(pwHash($('#pwIn').value, p.id) === p.pw){ pwUnlocked.add(p.id); pwClose(); if(!vault.hidden) draw(); renderSite(); return; }
+    $('#pwErr').textContent = '비밀번호가 맞지 않아요'; $('#pwIn').value = ''; $('#pwIn').focus();
+    const box = $('#pwp'); box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
+  }
+  const askLock = () => { const p = DATA.posts.find(x => x.id === sel); if(p && isLocked(p)) pwOpen(p.id); };
+  $('#pwOk').onclick = pwTry;
+  $('#pwX').onclick = pwClose;
+  $('#pwv').addEventListener('click', e => { if(e.target === $('#pwv')) pwClose(); });
+  document.addEventListener('click', e => { const o = e.target.closest('[data-pwopen]'); if(o) pwOpen(o.dataset.pwopen); });
+
 
   function draw(){
     const list = postsOf(cat);
@@ -1854,14 +1950,14 @@ b,strong{color:var(--white);font-weight:700}
       `<div class="vc${c.id === cat ? ' on' : ''}" data-cat="${esc(c.id)}"><i>${pad(i)}</i><span><b>${esc(c.name.toUpperCase())}</b><small>${esc(c.sub)}</small></span><em>${postsOf(c.id).length}</em></div>`).join('');
 
     $('#vlist').innerHTML = list.length
-      ? list.map(p => `<div class="vi${p.id === sel ? ' on' : ''}" data-id="${esc(p.id)}"><small>${esc(p.date)}${cat === 'all' ? ' · ' + esc(catOf(p.cat).name.toUpperCase()) : ''}</small><b>${esc(p.title)}</b><p>${excerpt(p,56)}</p></div>`).join('')
+      ? list.map(p => `<div class="vi${p.id === sel ? ' on' : ''}" data-id="${esc(p.id)}"><small>${esc(p.date)}${cat === 'all' ? ' · ' + esc(catOf(p.cat).name.toUpperCase()) : ''}</small><b>${p.pw ? '<svg class="plk" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>' : ''}${esc(p.title)}</b><p>${excerpt(p,56)}</p></div>`).join('')
       : `<div class="vempty"><b>NO RECORDS</b>이 폴더에는 아직 기록이 없어요</div>`;
 
     const i = list.findIndex(p => p.id === sel), p = list[i];
     const fsz = n => n >= 1048576 ? (n/1048576).toFixed(n >= 10485760 ? 0 : 1) + 'MB' : Math.max(1, Math.round(n/1024)) + 'KB';
     const fext = n => ((/\.([^.]+)$/.exec(n || '') || [])[1] || 'FILE').slice(0,5).toUpperCase();
     const atts = f => (f || []).length ? `<div class="atts"><div class="ah"><b>ATTACHMENTS</b> 첨부파일 ${f.length}</div>${f.map(x => `<div class="att"><span class="ext">${esc(fext(x.name))}</span><span class="nm" title="${esc(x.name)}">${esc(x.name)}</span><span class="sz">${x.size ? fsz(x.size) : ''}</span><a class="dl" href="${esc(imgSrc(x.src))}" download="${esc(x.name)}"><svg viewBox="0 0 12 12"><path d="M6 1v7M3 5.5 6 8.5 9 5.5M1.5 11h9"/></svg>DOWNLOAD</a></div>`).join('')}</div>` : '';
-    $('#vread').innerHTML = p
+    $('#vread').innerHTML = p && isLocked(p) ? lockedView(p, i, list) : p
       ? `<span class="tg">${esc(catOf(p.cat).name.toUpperCase())}</span><h2>${esc(p.title)}</h2><div class="dt">${esc(p.date)}</div><div class="pb">${fmt(p.body)}</div>${(p.images || []).length ? `<div class="pimgs">${p.images.map(s => `<img src="${esc(imgSrc(s))}" alt="" loading="lazy">`).join('')}</div>` : ''}${atts(p.files)}
          <div class="vnav"><button data-step="1" ${i >= list.length-1 ? 'disabled' : ''}>◂ PREV</button><button data-step="-1" ${i <= 0 ? 'disabled' : ''}>NEXT ▸</button></div>`
       : `<div class="vsel"><b>NO SELECTION</b>읽을 글이 아직 없어요</div>`;
@@ -1871,13 +1967,35 @@ b,strong{color:var(--white);font-weight:700}
   }
 
   const lbox = $('#lbox');
+  let lbG = null, lbI = 0;
+  function lbDraw(){
+    if(!lbG) return;
+    const n = lbG.srcs.length;
+    lbI = Math.max(0, Math.min(lbI, n - 1));
+    $('#lboxImg').src = imgSrc(lbG.srcs[lbI]);
+    $('#lboxCnt').textContent = (lbI + 1) + ' / ' + n;
+    $('#lboxDots').innerHTML = n > 1 && n <= 20 ? lbG.srcs.map((x, i) => `<i data-lbdot="${i}" class="${i === lbI ? 'on' : ''}"></i>`).join('') : '';
+    lbox.querySelectorAll('.lbn').forEach(b => { b.style.display = n > 1 ? '' : 'none'; b.disabled = (b.classList.contains('p') && lbI === 0) || (b.classList.contains('n') && lbI >= n - 1); });
+  }
+  function lbOpen(id){ const g = DATA.logs.find(x => x.id === id); if(!g || !g.srcs.length) return; lbG = g; lbI = 0; lbox.hidden = false; lbDraw(); }
+  function lbClose(){ lbox.hidden = true; lbG = null; $('#lboxImg').removeAttribute('src'); }
+  const lbStep = d => { if(!lbG) return; const k = lbI + d; if(k >= 0 && k < lbG.srcs.length){ lbI = k; lbDraw(); } };
   document.addEventListener('click', e => {
-    if(!lbox.hidden){ lbox.hidden = true; return; }
-    const ls = e.target.closest('[data-lstep]'); if(ls){ logStep(Number(ls.dataset.lstep)); return; }
-    const ld = e.target.closest('[data-ldot]'); if(ld){ logIdx = Number(ld.dataset.ldot); drawLog(); return; }
+    if(!lbox.hidden){
+      const st = e.target.closest('[data-lbstep]'); if(st){ lbStep(Number(st.dataset.lbstep)); return; }
+      const dt = e.target.closest('[data-lbdot]'); if(dt){ lbI = Number(dt.dataset.lbdot); lbDraw(); return; }
+      if(e.target.closest('#lboxImg, .lbdots, .lbcnt')) return;
+      lbClose(); return;
+    }
     const lc = e.target.closest('[data-lb]');
-    if(lc){ const l = DATA.logs.find(x => x.id === lc.dataset.lb); if(l){ $('#lboxImg').src = imgSrc(l.src); lbox.hidden = false; } return; }
+    if(lc){ lbOpen(lc.dataset.lb); return; }
   });
+  // 뷰어 터치 스와이프
+  (function(){
+    let x0 = null;
+    lbox.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, {passive:true});
+    lbox.addEventListener('touchend', e => { if(x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if(Math.abs(dx) > 40) lbStep(dx < 0 ? 1 : -1); });
+  })();
   document.addEventListener('click', e => {
     const o = e.target.closest('[data-open]');
     if(o){ openVault(o.dataset.open); return; }
@@ -1886,9 +2004,9 @@ b,strong{color:var(--white);font-weight:700}
     const c = e.target.closest('#vcats .vc');
     if(c){ cat = c.dataset.cat; sel = null; reading = false; draw(); return; }
     const v = e.target.closest('.vi');
-    if(v){ sel = v.dataset.id; reading = true; draw(); return; }
+    if(v){ sel = v.dataset.id; reading = true; draw(); askLock(); return; }
     const s = e.target.closest('#vp [data-step]');
-    if(s){ const l = postsOf(cat), k = l.findIndex(p => p.id === sel) + Number(s.dataset.step); if(l[k]){ sel = l[k].id; draw(); } }
+    if(s){ const l = postsOf(cat), k = l.findIndex(p => p.id === sel) + Number(s.dataset.step); if(l[k]){ sel = l[k].id; draw(); askLock(); } }
   });
   $('#vx').onclick = closeVault;
   $('#vback').onclick = () => { reading = false; draw(); };
@@ -2123,6 +2241,9 @@ b,strong{color:var(--white);font-weight:700}
           <div class="fld"><label>DATE</label><input data-pf="date" value="${esc(d.date)}" placeholder="2026.10.31"></div>
         </div>
         <div class="fld"><label>TITLE</label><input data-pf="title" value="${esc(d.title)}"></div>
+        <div class="fld"><label>PASSWORD · 비밀번호 (비우면 공개 글)</label>
+          <div style="display:flex; gap:10px"><input type="text" data-pw-in autocomplete="off" placeholder="${d.pw ? '새 비밀번호로 바꾸려면 여기에 입력' : '비밀번호를 걸려면 여기에 입력'}"><button class="btn" data-act="pw-clear" ${d.pw ? '' : 'disabled'}>해제</button></div>
+          <small id="pwStat">${d.pw ? '🔒 지금 비밀번호가 걸려 있어요 (여기를 안 건드리면 그대로예요)' : '공개 글이에요. 비밀번호를 쓰면 글을 열 때 비밀번호 창이 떠요.'}</small></div>
         <div class="fld"><label>BODY</label>
           <div class="fmtbar">
             <button type="button" data-fmt="b" title="굵게 (Ctrl+B)"><b>B</b></button>
@@ -2150,15 +2271,15 @@ b,strong{color:var(--white);font-weight:700}
       const l = sorted(DATA.posts);
       return `<div class="sh">POSTS</div>
       <div class="abar"><button class="btn pri" data-act="post-new">+ 새 글</button></div>
-      ${l.length ? l.map(p => `<div class="arow"><span class="tt">${esc(p.title)}</span><span class="tg">${esc(catOf(p.cat).name.toUpperCase())}</span><span class="dd">${esc(p.date)}</span><button class="btn sm" data-act="post-edit" data-id="${esc(p.id)}">수정</button><button class="btn sm" data-act="post-del" data-id="${esc(p.id)}">삭제</button></div>`).join('') : '<div class="none">아직 글이 없어요</div>'}`;
+      ${l.length ? l.map(p => `<div class="arow"><span class="tt">${p.pw ? '🔒 ' : ''}${esc(p.title)}</span><span class="tg">${esc(catOf(p.cat).name.toUpperCase())}</span><span class="dd">${esc(p.date)}</span><button class="btn sm" data-act="post-edit" data-id="${esc(p.id)}">수정</button><button class="btn sm" data-act="post-del" data-id="${esc(p.id)}">삭제</button></div>`).join('') : '<div class="none">아직 글이 없어요</div>'}`;
     },
     log(){
       const l = DATA.logs;
       return `<div class="sh">LOG</div>
-      <div class="note">LOG 탭에는 <b>이미지만</b> 올라가요. RECORDS(ARCHIVE)와는 따로 관리돼요.</div>
-      <div class="abar"><button class="btn pri" data-act="log-add">+ 이미지 업로드</button></div>
-      ${l.length ? l.map((x,i) => `<div class="lgrow"><span style="flex:none;font-size:10px;color:var(--red);width:22px">${pad(i+1)}</span><img src="${esc(imgSrc(x.src))}" alt=""><span class="cf dt"><input data-log-id="${esc(x.id)}" data-log-f="date" value="${esc(x.date)}" placeholder="2026.10.31"></span><span class="cf"><input data-log-id="${esc(x.id)}" data-log-f="cap" value="${esc(x.cap)}" placeholder="캡션 (선택)"></span><button class="btn sm" data-act="log-mv" data-i="${i}" data-d="-1" ${i === 0 ? 'disabled' : ''} title="앞으로">↑</button><button class="btn sm" data-act="log-mv" data-i="${i}" data-d="1" ${i === l.length - 1 ? 'disabled' : ''} title="뒤로">↓</button><button class="btn sm" data-act="log-del" data-id="${esc(x.id)}">삭제</button></div>`).join('') : '<div class="none">아직 올린 이미지가 없어요</div>'}
-      <div class="fld" style="margin-top:14px"><small>여러 장을 한 번에 고를 수 있어요. 올린 순서대로 LOG에 들어가고, ↑↓로 순서를 바꿀 수 있어요. 날짜와 캡션은 나중에 고칠 수 있어요. 올린 뒤 GITHUB에 저장하면 반영돼요.</small></div>`;
+      <div class="note">LOG는 <b>한 번에 올린 이미지들이 하나로 묶여서</b> 작은 썸네일 하나로 보여요. 누르면 ‹ › 로 한 장씩 넘겨 볼 수 있어요. RECORDS(ARCHIVE)와는 따로 관리돼요.</div>
+      <div class="abar"><button class="btn pri" data-act="log-add">+ 새 묶음 올리기</button></div>
+      ${l.length ? l.map((x,i) => `<div class="lgg"><div class="lgrow" style="border-bottom:0;padding-bottom:6px"><span style="flex:none;font-size:10px;color:var(--red);width:22px">${pad(i+1)}</span><span class="cf dt"><input data-log-id="${esc(x.id)}" data-log-f="date" value="${esc(x.date)}" placeholder="2026.10.31"></span><span class="cf"><input data-log-id="${esc(x.id)}" data-log-f="cap" value="${esc(x.cap)}" placeholder="캡션 (선택)"></span><button class="btn sm" data-act="log-mv" data-i="${i}" data-d="-1" ${i === 0 ? 'disabled' : ''} title="앞으로">↑</button><button class="btn sm" data-act="log-mv" data-i="${i}" data-d="1" ${i === l.length - 1 ? 'disabled' : ''} title="뒤로">↓</button><button class="btn sm" data-act="log-del" data-id="${esc(x.id)}">묶음 삭제</button></div><div class="lths">${x.srcs.map((sr,k) => `<span class="lth"><img src="${esc(imgSrc(sr))}" alt=""><button data-act="log-img-del" data-id="${esc(x.id)}" data-k="${k}" title="이 이미지만 빼기">×</button></span>`).join('')}<button class="btn sm" data-act="log-img-add" data-id="${esc(x.id)}">+ 이미지 추가</button>${i > 0 ? `<button class="btn sm" data-act="log-merge" data-id="${esc(x.id)}">위 묶음에 합치기</button>` : ''}</div></div>`).join('') : '<div class="none">아직 올린 이미지가 없어요</div>'}
+      <div class="fld" style="margin-top:14px"><small>이미지 4~10장을 한 번에 골라서 올리면 <b>한 묶음</b>으로 들어가요. 묶음 안의 이미지는 × 로 빼거나 + 로 더 넣을 수 있고, 따로 올라간 묶음은 '위 묶음에 합치기'로 합칠 수 있어요. 날짜와 캡션은 나중에 고칠 수 있어요. 올린 뒤 GITHUB에 저장하면 반영돼요.</small></div>`;
     },
     cats(){
       return `<div class="sh">CATEGORY</div>
@@ -2235,9 +2356,19 @@ b,strong{color:var(--white);font-weight:700}
       clean(); renderSite(); aRender(); aMsg('최신 내용을 불러왔어요');
     } catch(e){ aMsg('불러오기 실패: ' + e.message, true); }
   }
+  let toastT = null;
+  function toast(msg, err){
+    const el = $('#toast'); el.textContent = msg; el.classList.toggle('err', !!err); el.hidden = false;
+    clearTimeout(toastT); toastT = setTimeout(() => { el.hidden = true; }, err ? 7000 : 4000);
+  }
+  let ghSaving = false;
+  const ghFilled = () => !!(GH.owner && GH.repo && GH.path && GH.token);
   async function ghSave(){
-    if(!ghReady()) return;
+    if(ghSaving) return false;
+    if(!ghReady()){ toast('GitHub 설정(소유자 · 저장소 · 토큰)이 비어 있어서 저장하지 못했어요', true); return false; }
+    ghSaving = true;
     const btn = $('#asave'); btn.disabled = true; aMsg('GitHub에 저장하는 중…');
+    let ok = false;
     try {
       const br = encodeURIComponent(GH.branch || 'main');
       let sha;
@@ -2248,10 +2379,19 @@ b,strong{color:var(--white);font-weight:700}
       if(sha) body.sha = sha;
       const r = await fetch(fileUrl(), {method:'PUT', headers:{...ghHead(), 'Content-Type':'application/json'}, body:JSON.stringify(body)});
       if(!r.ok) throw new Error(await errText(r));
-      clean(); aMsg('저장했어요 · GitHub에 커밋 완료');
-    } catch(e){ aMsg('저장 실패: ' + e.message, true); }
-    btn.disabled = false;
+      clean(); ok = true;
+      aMsg('저장했어요 · GitHub에 커밋 완료');
+      toast('저장했어요 ✓  사이트에는 1~2분 뒤에 보여요 (안 보이면 Ctrl+F5)');
+    } catch(e){ aMsg('저장 실패: ' + e.message, true); toast('저장 실패: ' + e.message + ' — 아직 사이트에 반영되지 않았어요', true); }
+    btn.disabled = false; ghSaving = false;
+    return ok;
   }
+  // 글을 올리거나 지운 직후 자동으로 GitHub에 저장 (설정이 비어 있으면 안내만)
+  const autoSave = () => {
+    if(ghFilled()) ghSave();
+    else toast('GitHub 설정이 비어 있어서 이 화면에만 올라갔어요. 새로고침하면 사라져요 — GITHUB 메뉴에서 설정한 뒤 저장해 주세요', true);
+  };
+  addEventListener('beforeunload', e => { if(dirty){ e.preventDefault(); e.returnValue = ''; } });
 
   // ---- 이미지 업로드 (파일 → GitHub 저장소의 images 폴더) ----
   const IMGPREVIEW = {};            // 방금 올린 이미지는 배포 전에도 미리 보이도록 임시로 들고 있음
@@ -2321,6 +2461,7 @@ b,strong{color:var(--white);font-weight:700}
     if(!files.length) return;
     aMsg('이미지 올리는 중…');
     try {
+      const logRefs = [];
       for(const f of files){
         const ref = await uploadImage(f);
         if(uploadTarget === 'photo') DATA.site.photo = ref;
@@ -2331,9 +2472,11 @@ b,strong{color:var(--white);font-weight:700}
         else if(String(uploadTarget).startsWith('wwsq:')){ const t = uploadTarget.slice(5).split(':').map(Number); DATA.ww.pages[t[0]].squads[t[1]].img = ref; DATA.ww.pages[t[0]].squads[t[1]].baked = 0; }
         else if(String(uploadTarget).startsWith('wwrep:')) DATA.ww.pages[Number(uploadTarget.slice(6))].img = ref;
         else if(String(uploadTarget).startsWith('wlimg:')) setPath(uploadTarget.slice(6), ref);
-        else if(uploadTarget === 'log') DATA.logs.push({id:'g' + Date.now().toString(36) + Math.random().toString(36).slice(2,5), date:today(), cap:'', src:ref});
+        else if(uploadTarget === 'log') logRefs.push(ref);
+        else if(String(uploadTarget).startsWith('logadd:')){ const g = DATA.logs.find(x => x.id === uploadTarget.slice(7)); if(g) g.srcs.push(ref); }
         else (editing.data.images = editing.data.images || []).push(ref);
       }
+      if(logRefs.length) DATA.logs.push({id:'g' + Date.now().toString(36) + Math.random().toString(36).slice(2,5), date:today(), cap:'', srcs:logRefs});
       markDirty(); renderSite(); aRender();
       aMsg('이미지를 올렸어요 · 이어서 GITHUB에 저장하면 사이트에 반영돼요');
     } catch(e){ aMsg('업로드 실패: ' + e.message, true); }
@@ -2354,7 +2497,7 @@ b,strong{color:var(--white);font-weight:700}
     else if(a === 'gh-save') ghSave();
     else if(a === 'post-new'){ editing = {isNew:true, data:{id:'p' + Date.now().toString(36), cat:(DATA.cats[0] || {}).id || '', date:today(), title:'', body:'', images:[], files:[]}}; aRender(); }
     else if(a === 'post-edit'){ const p = DATA.posts.find(x => x.id === b.dataset.id); if(p){ editing = {isNew:false, data:clone(p)}; aRender(); } }
-    else if(a === 'post-del'){ const p = DATA.posts.find(x => x.id === b.dataset.id); if(p && confirm(`"${p.title}" 글을 삭제할까요?`)){ DATA.posts = DATA.posts.filter(x => x.id !== p.id); markDirty(); renderSite(); aRender(); aMsg('삭제했어요 (GitHub에 저장해야 반영돼요)'); } }
+    else if(a === 'post-del'){ const p = DATA.posts.find(x => x.id === b.dataset.id); if(p && confirm(`"${p.title}" 글을 삭제할까요?`)){ DATA.posts = DATA.posts.filter(x => x.id !== p.id); markDirty(); renderSite(); aRender(); aMsg('삭제했어요 · GitHub에 저장하는 중…'); autoSave(); } }
     else if(a === 'img-photo'){ uploadTarget = 'photo'; afile.multiple = false; afile.click(); }
     else if(a === 'img-photo-del'){ DATA.site.photo = ''; markDirty(); renderSite(); aRender(); }
     else if(a === 'img-dday'){ uploadTarget = 'dday'; afile.multiple = false; afile.click(); }
@@ -2380,17 +2523,21 @@ b,strong{color:var(--white);font-weight:700}
     else if(a === 'lk-img-del'){ DATA.links[Number(b.dataset.i)].img = ''; markDirty(); renderSite(); aRender(); }
     else if(a === 'log-add'){ uploadTarget = 'log'; afile.multiple = true; afile.click(); }
     else if(a === 'log-mv'){ const i = Number(b.dataset.i), k = i + Number(b.dataset.d), L = DATA.logs; if(L[k]){ [L[i], L[k]] = [L[k], L[i]]; markDirty(); renderSite(); aRender(); } }
-    else if(a === 'log-del'){ const l = DATA.logs.find(x => x.id === b.dataset.id); if(l && confirm('이 이미지를 LOG에서 삭제할까요?')){ DATA.logs = DATA.logs.filter(x => x.id !== l.id); markDirty(); renderSite(); aRender(); aMsg('삭제했어요 (GitHub에 저장해야 반영돼요)'); } }
+    else if(a === 'log-img-add'){ uploadTarget = 'logadd:' + b.dataset.id; afile.multiple = true; afile.click(); }
+    else if(a === 'log-img-del'){ const g = DATA.logs.find(x => x.id === b.dataset.id); if(g){ g.srcs.splice(Number(b.dataset.k), 1); if(!g.srcs.length) DATA.logs = DATA.logs.filter(x => x.id !== g.id); markDirty(); renderSite(); aRender(); aMsg('뺐어요 (GitHub에 저장해야 반영돼요)'); } }
+    else if(a === 'log-merge'){ const L = DATA.logs, i = L.findIndex(x => x.id === b.dataset.id); if(i > 0){ L[i - 1].srcs.push(...L[i].srcs); L.splice(i, 1); markDirty(); renderSite(); aRender(); aMsg('위 묶음에 합쳤어요 (GitHub에 저장해야 반영돼요)'); } }
+    else if(a === 'log-del'){ const l = DATA.logs.find(x => x.id === b.dataset.id); if(l && confirm('이 묶음(이미지 ' + l.srcs.length + '장)을 LOG에서 삭제할까요?')){ DATA.logs = DATA.logs.filter(x => x.id !== l.id); markDirty(); renderSite(); aRender(); aMsg('삭제했어요 (GitHub에 저장해야 반영돼요)'); } }
     else if(a === 'file-add'){ afile2.click(); }
     else if(a === 'file-rm'){ editing.data.files.splice(Number(b.dataset.i), 1); aRender(); }
     else if(a === 'img-rm'){ editing.data.images.splice(Number(b.dataset.i), 1); aRender(); }
+    else if(a === 'pw-clear'){ editing.data.pw = ''; aRender(); aMsg('비밀번호를 풀었어요 (완료를 눌러야 반영돼요)'); }
     else if(a === 'post-cancel'){ editing = null; aRender(); }
     else if(a === 'post-ok'){
       const d = editing.data;
       if(!d.title.trim()){ aMsg('제목을 입력해 주세요', true); return; }
       if(!d.cat){ aMsg('카테고리를 먼저 만들어 주세요', true); return; }
       if(editing.isNew) DATA.posts.push(d); else DATA.posts = DATA.posts.map(x => x.id === d.id ? d : x);
-      editing = null; markDirty(); renderSite(); aRender(); aMsg('글을 반영했어요 (GitHub에 저장해야 공개돼요)');
+      editing = null; markDirty(); renderSite(); aRender(); aMsg('글을 반영했어요 · GitHub에 저장하는 중…'); autoSave();
     }
     else if(a === 'cat-del'){
       const c = DATA.cats[Number(b.dataset.i)];
@@ -2409,6 +2556,7 @@ b,strong{color:var(--white);font-weight:700}
   adm.addEventListener('input', e => {
     const t = e.target;
     if(t.dataset.gh){ GH[t.dataset.gh] = t.value.trim(); saveGH(); return; }
+    if(t.dataset.pwIn !== undefined && editing){ editing.data.pw = t.value ? pwHash(t.value, editing.data.id) : ''; const st = $('#pwStat'); if(st) st.textContent = t.value ? '🔒 이 비밀번호로 걸려요 (완료를 눌러야 반영돼요)' : '비밀번호 없이 공개돼요'; return; }
     if(t.dataset.pf){ editing.data[t.dataset.pf] = t.value; return; }
     if(t.dataset.bgmVol !== undefined){
       const v = Number(t.value); DATA.bgm.volume = v; $('#bgmVolNum').textContent = v; markDirty();
@@ -2467,11 +2615,8 @@ b,strong{color:var(--white);font-weight:700}
 
   // ---- 키보드 ----
   addEventListener('keydown', e => {
-    if(!lbox.hidden){ if(e.key === 'Escape') lbox.hidden = true; return; }
-    if(adm.hidden && vault.hidden && document.querySelector('#log.on') && !/^(INPUT|TEXTAREA|SELECT)$/.test((e.target || {}).tagName || '')){
-      if(e.key === 'ArrowLeft'){ logStep(-1); return; }
-      if(e.key === 'ArrowRight'){ logStep(1); return; }
-    }
+    if(!$('#pwv').hidden){ if(e.key === 'Escape') pwClose(); else if(e.key === 'Enter') pwTry(); return; }
+    if(!lbox.hidden){ if(e.key === 'Escape') lbClose(); else if(e.key === 'ArrowLeft') lbStep(-1); else if(e.key === 'ArrowRight') lbStep(1); return; }
     if(!wlEl.hidden && adm.hidden){ if(e.key === 'Escape') closeWL(); return; }
     if(!wwEl.hidden && adm.hidden){ if(e.key === 'Escape') closeWW(); return; }
     if(!mgEl.hidden && adm.hidden){ if(e.key === 'Escape') closeMsg(); return; }
@@ -2484,14 +2629,6 @@ b,strong{color:var(--white);font-weight:700}
       if(l[k]){ sel = l[k].id; draw(); e.preventDefault(); }
     }
   });
-
-  // ---- LOG 터치 스와이프 ----
-  (function(){
-    let x0 = null;
-    const host = $('#logList');
-    host.addEventListener('touchstart', e => { x0 = e.target.closest('.lstage') ? e.touches[0].clientX : null; }, {passive:true});
-    host.addEventListener('touchend', e => { if(x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if(Math.abs(dx) > 40) logStep(dx < 0 ? 1 : -1); });
-  })();
 
   // ---- 탭 전환 / 시계 ----
   const btns = document.querySelectorAll('#nav button[data-t]');
