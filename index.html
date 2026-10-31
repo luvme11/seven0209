@@ -816,6 +816,11 @@
   }
   #pfHost{display:block; margin:0 auto}
 </style>
+<style id="syringeCursor">
+/* 주사기 마우스 커서 (32px, 바늘 끝이 클릭 지점) */
+html,body,*{cursor:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAFUUlEQVR42s1XbUxTZxQ+770tjkKUVGMQh0WdiB+IiopkTtzinHPJYkCcblPnRmAT3FCYbOBaBGSgkyoODKI4TbRadX5sOgrMlopOVL6cggZqBfpBi7agUEp7b89+UMziXDZnYZ7k/rrJ+zz3vM9znnMBXrAiAEC9KEQGHzAk5C0/AHgZAEAkEg1eJ6RSKY0IZHXUhozs7DwjAHgRQiAyMpIeFALo7MBSvu+i1OTs8l25RXcGjYQI+lq9cOGqMZIPoh4FAwRmbtsr+X73gbsAMIwQAmFhYZyBwqcWiPpUP9d7yCcrXn3NM9Yv8P3kTdErO0ydjbm5RZWI6KVUljOISIWFiTh9ehFRLhNqfwe+mBQccnbum8oYnveSfitmZOSV5ecdrAXgz3nMmOrDJYSAk4hLbccrio3PL1wbsyk6OpoLANy4uG8aL8irMDZWeDI4eHESAIzickdPA4CRLnOLCESUVCqlVwYFz6nYu6/zp7TMqmngMZKiCMybF/m55GipRamsw9LSakxISNWV/XoZc3IKm93c+JNcphGpU+2fjZ+6NHZMwEwAAESkAGDYRx9/3VVT18aUlFzqVal0eOOm3q7VdWFh4RE1APhRz0HiscWO19cjAJDrZuPta5339c5rISqViozymTjCjYshc2YFEqPRijwel+aP8GTGvTJpeGDgjHdOnTr9c2uLyrQsMpKu7zvn37vgyZEgEoko51xAAKA0Gk1Pi+r332bPCnLoOhyOmju3iIUBaG9u5zAmk/2N0PkTig4dKXOM8B1/8vhx9lnnxl8EtGXLFgfpA39cfP5wLxjiSd8o2OvwP3MaAgry0PuqAr0e6OihxWft76mbxx1Kzyxx+E4Zf+IZSfyjlxGRIoTQcQlpWRH+Ezf2ZuTY7MjQflMCyHBPTwBPd/AY6sG6Tw/iSnp77q7JK1hE6i+r5s8P4ygUCkefY4kDnvioZ0k9gohACMENaTu3L/MRJDZm5dj8e+0cX74XuPHcYEjoTMLx9WHoVgP3/NQJ6oiklEXkvqoJ8T9cwdOaQAgBRKTFwvgvj+mbv/VP3uD2kOfOaFgrPAA70LcbETVtdG/TTbu3xTL2UH5uqbu7z4yEBKE4NXX7CYFgsrcrYp4gIg0AECPcvvX6/h/xyOTXberABYxpxTq2bfZi9nBMAluv1ttVTQbcvXu/Xas1ol5vxYiItducQ+u55wWRy5EDALBm87b0un0n8dy0hbZGv1mMJGoj+8BicVi6exwymZIxmx+x91q6MD9f2hwauniGVCqlXZWsRC6XcwAAVgm/S6/Ok+CxqCT7HUM3c9/YwVZcvMJqtUamuKSK2bHjh1v+gqkBQAAoiurPEeJaErHJKZdq1Fhbo2Zksotsa6uBUSgbbAaj2ZGZKb7wJ8CxAMBz6crXfx3vLvkwrbhYiWq11nrul2vYqnnIdHRa7YiIKSmZp+PiviooLpbb0tLEVQAeIxGRuIIEQUQqICB4VMGeg2Vmc7et8uo9TEnOamtoaMGOThabmnT2Elk5trebsVXbzZ4/X4FcLi/IGYHPl6L9ghIIpr/d0KBBfZsNxeIDlQAwOj4+JUOhqLbJZBV2k6nDXlOnt1ypbML165O3AgBXJEKX7BEEEYlAIHgpJiZpV2Ji+hkA4NM0BQAwLDsrt6Wry8JU1+p6ampbMHGjcJdzshIYqLW///Dw8NWbrVYH3qw3oFxRi+s+TdzpfE8/Cc5xETAFALB8+XICAKzZYDglFu9ZxeFwqaOHDwurasslzkz520wYiHJ3Pv2deWoN1LpN0TTVAwAQHh5BE0LY/+v/ksCLXn8AGP2HyORMO5oAAAAASUVORK5CYII=") 4 4, auto !important; cursor:-webkit-image-set(url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAFUUlEQVR42s1XbUxTZxQ+770tjkKUVGMQh0WdiB+IiopkTtzinHPJYkCcblPnRmAT3FCYbOBaBGSgkyoODKI4TbRadX5sOgrMlopOVL6cggZqBfpBi7agUEp7b89+UMziXDZnYZ7k/rrJ+zz3vM9znnMBXrAiAEC9KEQGHzAk5C0/AHgZAEAkEg1eJ6RSKY0IZHXUhozs7DwjAHgRQiAyMpIeFALo7MBSvu+i1OTs8l25RXcGjYQI+lq9cOGqMZIPoh4FAwRmbtsr+X73gbsAMIwQAmFhYZyBwqcWiPpUP9d7yCcrXn3NM9Yv8P3kTdErO0ydjbm5RZWI6KVUljOISIWFiTh9ehFRLhNqfwe+mBQccnbum8oYnveSfitmZOSV5ecdrAXgz3nMmOrDJYSAk4hLbccrio3PL1wbsyk6OpoLANy4uG8aL8irMDZWeDI4eHESAIzickdPA4CRLnOLCESUVCqlVwYFz6nYu6/zp7TMqmngMZKiCMybF/m55GipRamsw9LSakxISNWV/XoZc3IKm93c+JNcphGpU+2fjZ+6NHZMwEwAAESkAGDYRx9/3VVT18aUlFzqVal0eOOm3q7VdWFh4RE1APhRz0HiscWO19cjAJDrZuPta5339c5rISqViozymTjCjYshc2YFEqPRijwel+aP8GTGvTJpeGDgjHdOnTr9c2uLyrQsMpKu7zvn37vgyZEgEoko51xAAKA0Gk1Pi+r332bPCnLoOhyOmju3iIUBaG9u5zAmk/2N0PkTig4dKXOM8B1/8vhx9lnnxl8EtGXLFgfpA39cfP5wLxjiSd8o2OvwP3MaAgry0PuqAr0e6OihxWft76mbxx1Kzyxx+E4Zf+IZSfyjlxGRIoTQcQlpWRH+Ezf2ZuTY7MjQflMCyHBPTwBPd/AY6sG6Tw/iSnp77q7JK1hE6i+r5s8P4ygUCkefY4kDnvioZ0k9gohACMENaTu3L/MRJDZm5dj8e+0cX74XuPHcYEjoTMLx9WHoVgP3/NQJ6oiklEXkvqoJ8T9cwdOaQAgBRKTFwvgvj+mbv/VP3uD2kOfOaFgrPAA70LcbETVtdG/TTbu3xTL2UH5uqbu7z4yEBKE4NXX7CYFgsrcrYp4gIg0AECPcvvX6/h/xyOTXberABYxpxTq2bfZi9nBMAluv1ttVTQbcvXu/Xas1ol5vxYiItducQ+u55wWRy5EDALBm87b0un0n8dy0hbZGv1mMJGoj+8BicVi6exwymZIxmx+x91q6MD9f2hwauniGVCqlXZWsRC6XcwAAVgm/S6/Ok+CxqCT7HUM3c9/YwVZcvMJqtUamuKSK2bHjh1v+gqkBQAAoiurPEeJaErHJKZdq1Fhbo2Zksotsa6uBUSgbbAaj2ZGZKb7wJ8CxAMBz6crXfx3vLvkwrbhYiWq11nrul2vYqnnIdHRa7YiIKSmZp+PiviooLpbb0tLEVQAeIxGRuIIEQUQqICB4VMGeg2Vmc7et8uo9TEnOamtoaMGOThabmnT2Elk5trebsVXbzZ4/X4FcLi/IGYHPl6L9ghIIpr/d0KBBfZsNxeIDlQAwOj4+JUOhqLbJZBV2k6nDXlOnt1ypbML165O3AgBXJEKX7BEEEYlAIHgpJiZpV2Ji+hkA4NM0BQAwLDsrt6Wry8JU1+p6ampbMHGjcJdzshIYqLW///Dw8NWbrVYH3qw3oFxRi+s+TdzpfE8/Cc5xETAFALB8+XICAKzZYDglFu9ZxeFwqaOHDwurasslzkz520wYiHJ3Pv2deWoN1LpN0TTVAwAQHh5BE0LY/+v/ksCLXn8AGP2HyORMO5oAAAAASUVORK5CYII=") 1x, url("data:image/png;base64,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") 2x) 4 4, auto !important}
+input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]):not([type=button]),textarea,[contenteditable=true]{cursor:text !important}
+</style>
 </head>
 <body>
 
@@ -844,7 +849,7 @@
   <nav id="nav">
     <button class="on" data-t="home">HOME</button>
     <button data-t="profile">PAIR</button>
-    <button data-t="log">LOG</button>
+    <button data-open="cat:log">LOG</button>
     <button data-t="links">LINKS</button>
     <button data-open="all">RECORDS</button>
     <button data-open="cat:notice">NOTICE</button>
@@ -1371,6 +1376,7 @@ b,strong{color:var(--white);font-weight:700}
     },
     cats:[
       {id:'notice', name:'Notice', sub:'공지사항'},
+      {id:'log',    name:'LOG',    sub:'로그'},
       {id:'love',   name:'love',   sub:'러브'},
       {id:'music',  name:'music',  sub:'음악'}
     ],
@@ -1395,15 +1401,13 @@ b,strong{color:var(--white);font-weight:700}
 
   let DATA = clone(DEFAULT);
   const normalize = j => {
-    const posts = Array.isArray(j.posts) ? j.posts : DEFAULT.posts;
-    const logs = Array.isArray(j.logs) ? j.logs.slice() : [];
-    // 예전 데이터: 'log' 카테고리 글은 RECORDS에서 빼고, 거기 있던 이미지는 LOG로 옮겨요
-    posts.filter(p => p.cat === 'log').forEach(p => {
-      const imgs = (p.images || []).filter(src => !logs.some(l => l.src === src || (l.srcs || []).includes(src)));
-      if(imgs.length) logs.push({id:p.id + '_0', date:p.date || '', cap:p.title || '', srcs:imgs});
-    });
-    // LOG는 '묶음' 하나에 이미지 여러 장 (예전 한 장짜리 데이터도 한 장 묶음으로 바꿔요)
-    const logGroups = logs.map(l => ({id:l.id, date:l.date || '', cap:l.cap || '', srcs:Array.isArray(l.srcs) ? l.srcs.filter(Boolean) : (l.src ? [l.src] : [])})).filter(l => l.srcs.length);
+    const posts0 = Array.isArray(j.posts) ? j.posts : DEFAULT.posts;
+    // 예전 LOG 이미지 묶음은 'LOG 글'(이미지 포함)로 옮겨서 그대로 보이게 해요
+    const moved = (Array.isArray(j.logs) ? j.logs : []).map(l => ({id:'lg_' + l.id, cat:'log', date:l.date || '', title:l.cap || l.title || l.date || 'LOG', body:l.body || '', images:Array.isArray(l.srcs) ? l.srcs.filter(Boolean) : (l.src ? [l.src] : []), files:[]}))
+      .filter(p => p.images.length && !posts0.some(x => x.id === p.id));
+    const posts = posts0.concat(moved);
+    const cats0 = Array.isArray(j.cats) ? j.cats : DEFAULT.cats;
+    const cats = cats0.some(c => c.id === 'log') ? cats0 : cats0.concat([{id:'log', name:'LOG', sub:'로그'}]);
     return {
       site:{...DEFAULT.site, ...(j.site||{})},
       profile:{...DEFAULT.profile, ...(j.profile||{})},
@@ -1414,9 +1418,9 @@ b,strong{color:var(--white);font-weight:700}
       msg:{...DEFAULT.msg, ...(j.msg||{})},
       ww:{...DEFAULT.ww, ...(j.ww||{})},
       world:{...DEFAULT.world, ...(j.world||{})},
-      cats:(Array.isArray(j.cats) ? j.cats : DEFAULT.cats).filter(c => c.id !== 'log'),
-      posts:posts.filter(p => p.cat !== 'log'),
-      logs:logGroups,
+      cats,
+      posts,
+      logs:[],
       links:Array.isArray(j.links) ? j.links : DEFAULT.links
     };
   };
@@ -1424,9 +1428,9 @@ b,strong{color:var(--white);font-weight:700}
   const catOf = id => DATA.cats.find(c => c.id === id) || {id, name:String(id).toUpperCase(), sub:''};
   const sorted = l => l.slice().sort((a,b) => String(b.date).localeCompare(String(a.date)));
   // NOTICE는 Records와 분리: 'all'(전체)에는 공지가 포함되지 않아요
-  const NOTICE = 'notice';
-  const recCats = () => DATA.cats.filter(c => c.id !== NOTICE);
-  const postsOf = c => sorted(c === 'all' ? DATA.posts.filter(p => p.cat !== NOTICE) : DATA.posts.filter(p => p.cat === c));
+  const NOTICE = 'notice', LOGC = 'log';
+  const recCats = () => DATA.cats.filter(c => c.id !== NOTICE && c.id !== LOGC);
+  const postsOf = c => sorted(c === 'all' ? DATA.posts.filter(p => p.cat !== NOTICE && p.cat !== LOGC) : DATA.posts.filter(p => p.cat === c));
   // ---- 글 서식: **굵게** *기울임* ==형광펜== ~~취소선~~ [글자](주소) / 한 줄에 --- = 구분선 ----
   const plain = s => String(s || '').replace(/<(script|style)[\s\S]*?<\/\1\s*>/gi, ' ').replace(/<\/?[a-zA-Z][^>]*>/g, ' ').replace(/^\s*-{3,}\s*$/gm, ' ').replace(/\[([^\]\n]+)\]\(([^)\s]+)\)/g, '$1').replace(/\*\*|==|~~/g, '').replace(/\*(?!\s)([^*\n]+?)\*/g, '$1');
   // ---- 비밀글: 글에 pw(암호화된 값)가 있으면 잠금. 한 번 풀면 새로고침 전까지 열려 있어요 ----
@@ -1913,7 +1917,7 @@ b,strong{color:var(--white);font-weight:700}
     const [t,v] = spec.split(':');
     if(t === 'post'){ const p = DATA.posts.find(x => x.id === v); if(!p) return; cat = p.cat; sel = p.id; reading = true; }
     else { cat = t === 'cat' ? v : 'all'; sel = null; reading = false; }
-    mode = cat === NOTICE ? 'notice' : 'records';
+    mode = cat === NOTICE ? 'notice' : cat === LOGC ? 'log' : 'records';
     vault.hidden = false; draw();
     if(t === 'post') askLock();
   }
@@ -1948,10 +1952,9 @@ b,strong{color:var(--white);font-weight:700}
     const list = postsOf(cat);
     if(!list.some(p => p.id === sel)) sel = list.length ? list[0].id : null;
     vp.classList.toggle('reading', reading && !!sel);
-    vp.classList.toggle('notice', mode === 'notice');
-    $('#vtitle').textContent = mode === 'notice' ? 'NOTICE' : 'ARCHIVE';
-    $('#vsub').textContent = mode === 'notice' ? '// ANNOUNCEMENTS' : '// RECORDS INDEX';
-    $('#vtag').textContent = mode === 'notice' ? 'NOTICE BOARD' : 'ARCHIVE ONLINE';
+    vp.classList.toggle('notice', mode !== 'records');
+    const MT = ({notice:['NOTICE','// ANNOUNCEMENTS','NOTICE BOARD'], log:['LOG','// LOG BOOK','LOG ONLINE'], records:['ARCHIVE','// RECORDS INDEX','ARCHIVE ONLINE']})[mode];
+    $('#vtitle').textContent = MT[0]; $('#vsub').textContent = MT[1]; $('#vtag').textContent = MT[2];
 
     $('#vcats').innerHTML = [{id:'all', name:'ALL', sub:'전체'}, ...recCats()].map((c,i) =>
       `<div class="vc${c.id === cat ? ' on' : ''}" data-cat="${esc(c.id)}"><i>${pad(i)}</i><span><b>${esc(c.name.toUpperCase())}</b><small>${esc(c.sub)}</small></span><em>${postsOf(c.id).length}</em></div>`).join('');
@@ -2020,7 +2023,7 @@ b,strong{color:var(--white);font-weight:700}
 
   // ============ ADMIN 패널 ============
   const adm = $('#admin');
-  const SECS = [['github','GITHUB','설정'],['dday','D-DAY','디데이'],['bgm','BGM','배경음악'],['intro','INTRO','자기소개 · 성향'],['radio','WALKIE-TALKIE','무전기 · 대화'],['msg','MESSAGE','메시지 · 채팅'],['ww','W.W','이미지 넘겨 보기'],['world','WORLD','세계관 · 시놉시스 · 연표'],['home','HOME','홈'],['profile','PROFILE','프로필'],['posts','POSTS','게시글'],['log','LOG','로그 이미지'],['cats','CATEGORY','카테고리'],['links','LINKS','링크']];
+  const SECS = [['github','GITHUB','설정'],['dday','D-DAY','디데이'],['bgm','BGM','배경음악'],['intro','INTRO','자기소개 · 성향'],['radio','WALKIE-TALKIE','무전기 · 대화'],['msg','MESSAGE','메시지 · 채팅'],['ww','W.W','이미지 넘겨 보기'],['world','WORLD','세계관 · 시놉시스 · 연표'],['home','HOME','홈'],['profile','PROFILE','프로필'],['posts','POSTS','게시글'],['log','LOG','로그 글'],['cats','CATEGORY','카테고리'],['links','LINKS','링크']];
   let asec = 'github', editing = null, dirty = false;
 
   // GitHub 설정은 이 브라우저(localStorage)에만 저장됩니다.
@@ -2240,6 +2243,7 @@ b,strong{color:var(--white);font-weight:700}
       ${area('ABOUT','profile.about','', '', 120)}`;
     },
     posts(){
+      const isLog = asec === 'log';
       if(editing){
         const d = editing.data;
         return `<div class="sh">${editing.isNew ? '새 글' : '글 수정'}</div>
@@ -2275,19 +2279,13 @@ b,strong{color:var(--white);font-weight:700}
         </div>
         <div class="abar"><button class="btn pri" data-act="post-ok">완료</button><button class="btn" data-act="post-cancel">취소</button></div>`;
       }
-      const l = sorted(DATA.posts);
-      return `<div class="sh">POSTS</div>
-      <div class="abar"><button class="btn pri" data-act="post-new">+ 새 글</button></div>
+      const l = sorted(DATA.posts.filter(p => isLog ? p.cat === LOGC : p.cat !== LOGC));
+      return `<div class="sh">${isLog ? 'LOG · 로그 글' : 'POSTS'}</div>
+      ${isLog ? '<div class="note">LOG 메뉴를 누르면 여기서 쓴 글이 목록으로 떠요. 글은 일기처럼 계속 쌓이고, 글 쓰는 방법은 POSTS와 똑같아요 (굵게 · 형광펜 · 이미지 · 비밀번호 다 돼요).</div>' : ''}
+      <div class="abar"><button class="btn pri" data-act="post-new"${isLog ? ' data-cat="log"' : ''}>${isLog ? '+ 새 로그' : '+ 새 글'}</button></div>
       ${l.length ? l.map(p => `<div class="arow"><span class="tt">${p.pw ? '🔒 ' : ''}${esc(p.title)}</span><span class="tg">${esc(catOf(p.cat).name.toUpperCase())}</span><span class="dd">${esc(p.date)}</span><button class="btn sm" data-act="post-edit" data-id="${esc(p.id)}">수정</button><button class="btn sm" data-act="post-del" data-id="${esc(p.id)}">삭제</button></div>`).join('') : '<div class="none">아직 글이 없어요</div>'}`;
     },
-    log(){
-      const l = DATA.logs;
-      return `<div class="sh">LOG</div>
-      <div class="note">LOG는 <b>한 번에 올린 이미지들이 하나로 묶여서</b> 작은 썸네일 하나로 보여요. 누르면 ‹ › 로 한 장씩 넘겨 볼 수 있어요. RECORDS(ARCHIVE)와는 따로 관리돼요.</div>
-      <div class="abar"><button class="btn pri" data-act="log-add">+ 새 묶음 올리기</button></div>
-      ${l.length ? l.map((x,i) => `<div class="lgg"><div class="lgrow" style="border-bottom:0;padding-bottom:6px"><span style="flex:none;font-size:10px;color:var(--red);width:22px">${pad(i+1)}</span><span class="cf dt"><input data-log-id="${esc(x.id)}" data-log-f="date" value="${esc(x.date)}" placeholder="2026.10.31"></span><span class="cf"><input data-log-id="${esc(x.id)}" data-log-f="cap" value="${esc(x.cap)}" placeholder="캡션 (선택)"></span><button class="btn sm" data-act="log-mv" data-i="${i}" data-d="-1" ${i === 0 ? 'disabled' : ''} title="앞으로">↑</button><button class="btn sm" data-act="log-mv" data-i="${i}" data-d="1" ${i === l.length - 1 ? 'disabled' : ''} title="뒤로">↓</button><button class="btn sm" data-act="log-del" data-id="${esc(x.id)}">묶음 삭제</button></div><div class="lths">${x.srcs.map((sr,k) => `<span class="lth"><img src="${esc(imgSrc(sr))}" alt=""><button data-act="log-img-del" data-id="${esc(x.id)}" data-k="${k}" title="이 이미지만 빼기">×</button><span class="lmv"><button data-act="log-img-mv" data-id="${esc(x.id)}" data-k="${k}" data-d="-1" ${k === 0 ? 'disabled' : ''} title="앞으로">◀</button><button data-act="log-img-mv" data-id="${esc(x.id)}" data-k="${k}" data-d="1" ${k === x.srcs.length - 1 ? 'disabled' : ''} title="뒤로">▶</button></span></span>`).join('')}<button class="btn sm" data-act="log-img-add" data-id="${esc(x.id)}">+ 이미지 추가</button>${i > 0 ? `<button class="btn sm" data-act="log-merge" data-id="${esc(x.id)}">위 묶음에 합치기</button>` : ''}</div></div>`).join('') : '<div class="none">아직 올린 이미지가 없어요</div>'}
-      <div class="fld" style="margin-top:14px"><small>이미지 4~10장을 한 번에 골라서 올리면 <b>한 묶음</b>으로 들어가요. 묶음 안의 이미지는 × 로 빼거나 + 로 더 넣을 수 있고, 따로 올라간 묶음은 '위 묶음에 합치기'로 합칠 수 있어요. 날짜와 캡션은 나중에 고칠 수 있어요. 올린 뒤 GITHUB에 저장하면 반영돼요.</small></div>`;
-    },
+    log(){ return SEC.posts(); },
     cats(){
       return `<div class="sh">CATEGORY</div>
       ${DATA.cats.map((c,i) => `<div class="arow"><span class="id">${esc(c.id)}</span><span class="cf"><input data-cat-i="${i}" data-cat-f="name" value="${esc(c.name)}" placeholder="이름"></span><span class="cf"><input data-cat-i="${i}" data-cat-f="sub" value="${esc(c.sub)}" placeholder="설명"></span><button class="btn sm" data-act="cat-del" data-i="${i}">삭제</button></div>`).join('')}
@@ -2502,7 +2500,7 @@ b,strong{color:var(--white);font-weight:700}
     if(a === 'gh-test') ghTest();
     else if(a === 'gh-load') ghLoad();
     else if(a === 'gh-save') ghSave();
-    else if(a === 'post-new'){ editing = {isNew:true, data:{id:'p' + Date.now().toString(36), cat:(DATA.cats[0] || {}).id || '', date:today(), title:'', body:'', images:[], files:[]}}; aRender(); }
+    else if(a === 'post-new'){ editing = {isNew:true, data:{id:'p' + Date.now().toString(36), cat:b.dataset.cat || (DATA.cats.find(c => c.id !== LOGC) || {}).id || '', date:today(), title:'', body:'', images:[], files:[]}}; aRender(); }
     else if(a === 'post-edit'){ const p = DATA.posts.find(x => x.id === b.dataset.id); if(p){ editing = {isNew:false, data:clone(p)}; aRender(); } }
     else if(a === 'post-del'){ const p = DATA.posts.find(x => x.id === b.dataset.id); if(p && confirm(`"${p.title}" 글을 삭제할까요?`)){ DATA.posts = DATA.posts.filter(x => x.id !== p.id); markDirty(); renderSite(); aRender(); aMsg('삭제했어요 · GitHub에 저장하는 중…'); autoSave(); } }
     else if(a === 'img-photo'){ uploadTarget = 'photo'; afile.multiple = false; afile.click(); }
@@ -2551,6 +2549,7 @@ b,strong{color:var(--white);font-weight:700}
     else if(a === 'cat-del'){
       const c = DATA.cats[Number(b.dataset.i)];
       if(c.id === NOTICE){ aMsg('NOTICE는 공지 팝업에 쓰이는 기본 카테고리라 지울 수 없어요', true); return; }
+      if(c.id === LOGC){ aMsg('LOG는 로그 글에 쓰이는 기본 카테고리라 지울 수 없어요', true); return; }
       if(DATA.posts.some(p => p.cat === c.id)){ aMsg('이 카테고리에 글이 있어서 지울 수 없어요. 글을 먼저 옮기거나 지워 주세요', true); return; }
       if(confirm(`"${c.name}" 카테고리를 삭제할까요?`)){ DATA.cats.splice(Number(b.dataset.i), 1); markDirty(); renderSite(); aRender(); }
     }
