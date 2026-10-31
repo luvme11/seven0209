@@ -599,28 +599,15 @@
   "posts": [],
   "logs": [
     {
-      "id": "gmvw957w4sgs",
-      "date": "2026.10.31",
+      "id": "gmvx0gxmmw6m",
+      "date": "2026.11.01",
       "cap": "",
-      "src": "images/mvw954pk-261031_7_7-11.png"
-    },
-    {
-      "id": "gmvw95ba7ild",
-      "date": "2026.10.31",
-      "cap": "",
-      "src": "images/mvw957z8-261031_7_7-10.png"
-    },
-    {
-      "id": "gmvw95ep9qcf",
-      "date": "2026.10.31",
-      "cap": "",
-      "src": "images/mvw95bdu-261031_7_7-9.png"
-    },
-    {
-      "id": "gmvw95hu6z75",
-      "date": "2026.10.31",
-      "cap": "",
-      "src": "images/mvw95esd-261031_7_7-8.png"
+      "srcs": [
+        "images/mvx0gmfd-261031_7_7-11.png",
+        "images/mvx0gp41-261031_7_7-10.png",
+        "images/mvx0grx3-261031_7_7-9.png",
+        "images/mvx0guhp-261031_7_7-8.png"
+      ]
     }
   ],
   "links": [
