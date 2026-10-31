@@ -587,13 +587,13 @@
     },
     {
       "id": "love",
-      "name": "love",
-      "sub": "러브"
+      "name": "Love",
+      "sub": ""
     },
     {
       "id": "music",
-      "name": "music",
-      "sub": "음악"
+      "name": "Me",
+      "sub": "배포"
     }
   ],
   "posts": [
@@ -619,7 +619,32 @@
       "body": "여기에 좋아하는 것, 마음에 남은 장면 같은 이야기를 적어 두세요."
     }
   ],
-  "logs": [],
+  "logs": [
+    {
+      "id": "gmvw957w4sgs",
+      "date": "2026.10.31",
+      "cap": "",
+      "src": "images/mvw954pk-261031_7_7-11.png"
+    },
+    {
+      "id": "gmvw95ba7ild",
+      "date": "2026.10.31",
+      "cap": "",
+      "src": "images/mvw957z8-261031_7_7-10.png"
+    },
+    {
+      "id": "gmvw95ep9qcf",
+      "date": "2026.10.31",
+      "cap": "",
+      "src": "images/mvw95bdu-261031_7_7-9.png"
+    },
+    {
+      "id": "gmvw95hu6z75",
+      "date": "2026.10.31",
+      "cap": "",
+      "src": "images/mvw95esd-261031_7_7-8.png"
+    }
+  ],
   "links": [
     {
       "t": "TWITTER / X",
