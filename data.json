@@ -12,12 +12,12 @@
     ]
   },
   "dday": {
-    "title": "OUR D-DAY",
-    "date": "2026.01.01",
-    "a": "NAME",
-    "b": "NAME",
+    "title": "D-DAY",
+    "date": "2026.10.31",
+    "a": "7",
+    "b": "22",
     "first": "1",
-    "photo": ""
+    "photo": "images/mvw8cjmv-from-pixai-2073104054054127916.png"
   },
   "bgm": {
     "url": "",
