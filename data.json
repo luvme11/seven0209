@@ -67,17 +67,34 @@
     "photo": "images/mvw8eztb-2026-10-31-190151.png"
   },
   "bgm": {
-    "url": "https://youtu.be/M4ZoCHID9GI?si=rpM8-aNUh0ocXj7L",
+    "url": "https://youtu.be/PCMdcIr02UE?si=sL2QpKdHJcj6i3Wl",
     "volume": 7,
     "auto": "0"
   },
   "intro": {
-    "title": "INTRO",
-    "from": "NAME",
+    "title": "VERONICA",
+    "from": "베로니카",
     "freq": "142.50",
     "speed": "normal",
-    "traits": [],
-    "body": "안녕하세요, 저는 NAME입니다.\n여기에 자기소개를 적어 주세요.\n\n한 줄 한 줄이 한 글자씩 화면에 나타나요."
+    "traits": [
+      {
+        "k": "1T1D 극온리 극이입 드림",
+        "v": ""
+      },
+      {
+        "k": "겹드림 유입 시 트위터 기능 사용",
+        "v": ""
+      },
+      {
+        "k": "드림 지우기 X",
+        "v": ""
+      },
+      {
+        "k": "배려 리스트 有",
+        "v": ""
+      }
+    ],
+    "body": "Aftermess (@qwerty) 7"
   },
   "radio": {
     "title": "1",
