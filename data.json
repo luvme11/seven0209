@@ -1,14 +1,14 @@
 {
   "site": {
-    "name": "이름을 입력하세요",
-    "handle": "@YOUR_HANDLE / 2026.10.31",
-    "photo": "",
-    "intro": "여기는 나만의 작은 공간입니다.\n좋아하는 것, 만들고 있는 것, 기록해 두고 싶은 것들을 이곳에 모아 둡니다.\n자기소개 문장을 자유롭게 바꿔서 채워 주세요.",
+    "name": "VERONICA",
+    "handle": "@noxuelux / 2026.10.31",
+    "photo": "images/mvw8gjt5-from-pixai-2073159895323774908.png",
+    "intro": "Aftermess 7\n1T1D 극온리 극이입 드림\n겹드림 유입 시 트위터 기능 사용\n드림 지우기 X\n배려 리스트 有",
     "chips": [
-      "ACTIVE",
-      "KOREAN",
-      "CREATOR",
-      "OPEN FOR CHAT"
+      "Aftermess",
+      "7",
+      "VERONICA",
+      "1T1D"
     ]
   },
   "dday": {
@@ -20,9 +20,9 @@
     "photo": "images/mvw8eztb-2026-10-31-190151.png"
   },
   "bgm": {
-    "url": "",
-    "volume": 40,
-    "auto": "1"
+    "url": "https://youtu.be/PCMdcIr02UE?si=sL2QpKdHJcj6i3Wl",
+    "volume": 7,
+    "auto": "0"
   },
   "intro": {
     "title": "INTRO",
