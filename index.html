@@ -259,7 +259,13 @@
   .lbcnt{font-size:12px; letter-spacing:.14em; color:#ddd; font-weight:600}
   .lgg{border-bottom:1px dashed var(--line); padding:6px 0 12px}
   .lths{display:flex; flex-wrap:wrap; gap:9px; align-items:center; padding-left:34px}
-  .lth{position:relative}
+  .lth{position:relative; display:flex; flex-direction:column; align-items:center; gap:4px}
+  .lth .lmv{display:flex; gap:3px}
+  .lth .lmv button,.th .lmv button{position:static; width:26px; height:20px; padding:0; border:1px solid var(--line); border-radius:0; background:#080808; color:#ccc; font-size:10px; line-height:1; cursor:pointer}
+  .lth .lmv button:hover:not(:disabled),.th .lmv button:hover:not(:disabled){background:var(--red); border-color:var(--red); color:#fff}
+  .lth .lmv button:disabled,.th .lmv button:disabled{opacity:.25; cursor:default}
+  .thw{display:flex; flex-direction:column; align-items:center; gap:4px}
+  .thw .lmv{display:flex; gap:3px}
   .lth img{display:block; width:52px; height:52px; object-fit:cover; border:1px solid var(--line)}
   .lth button{position:absolute; top:-6px; right:-6px; width:18px; height:18px; padding:0; border:0; border-radius:50%; background:var(--red); color:#fff; font-size:11px; line-height:18px; cursor:pointer}
   .frow{display:flex; align-items:center; gap:12px; padding:9px 4px; border-bottom:1px dashed var(--line)}
@@ -2258,7 +2264,7 @@ b,strong{color:var(--white);font-weight:700}
           <small><b style="color:#999">HTML 코드도 그대로 쓸 수 있어요</b> (예: &lt;div style="color:red"&gt;…&lt;/div&gt;, &lt;img&gt;, &lt;video&gt;, &lt;iframe src="https://…"&gt;). &lt;script&gt; · &lt;style&gt; · onclick 등도 그대로 적용돼요 (스크립트는 미리보기에서는 멈춰 있고, 실제 글을 열 때 실행돼요). 글자를 드래그해서 선택한 뒤 버튼을 누르면 적용돼요. 직접 쓰려면 <b style="color:#999">**굵게** · *기울임* · ==형광펜== · ~~취소선~~ · [글자](주소)</b>, 한 줄에 <b style="color:#999">---</b> 만 쓰면 구분선이에요. https:// 주소는 자동으로 링크가 돼요.</small></div>
         <div class="fld"><label>PREVIEW · 실시간 미리보기</label><div class="pb pvbox" id="pvbox">${String(d.body || '').trim() ? fmt(d.body) : '<span class="pvempty">본문을 쓰면 여기에 완성된 모습이 나와요</span>'}</div></div>
         <div class="fld"><label>IMAGES</label>
-          ${(d.images || []).length ? `<div class="thumbs">${d.images.map((s,i) => `<div class="th"><img src="${esc(imgSrc(s))}" alt=""><button data-act="img-rm" data-i="${i}" title="빼기">×</button></div>`).join('')}</div>` : ''}
+          ${(d.images || []).length ? `<div class="thumbs">${d.images.map((s,i) => `<div class="thw"><div class="th"><img src="${esc(imgSrc(s))}" alt=""><button data-act="img-rm" data-i="${i}" title="빼기">×</button></div><span class="lmv"><button data-act="img-mv" data-i="${i}" data-d="-1" ${i === 0 ? 'disabled' : ''} title="앞으로">◀</button><button data-act="img-mv" data-i="${i}" data-d="1" ${i === d.images.length - 1 ? 'disabled' : ''} title="뒤로">▶</button></span></div>`).join('')}</div>` : ''}
           <button class="btn" data-act="img-add">+ 이미지 추가</button>
           <small>여러 장을 한 번에 고를 수 있어요. 본문 아래에 순서대로 보여요.</small>
         </div>
@@ -2279,7 +2285,7 @@ b,strong{color:var(--white);font-weight:700}
       return `<div class="sh">LOG</div>
       <div class="note">LOG는 <b>한 번에 올린 이미지들이 하나로 묶여서</b> 작은 썸네일 하나로 보여요. 누르면 ‹ › 로 한 장씩 넘겨 볼 수 있어요. RECORDS(ARCHIVE)와는 따로 관리돼요.</div>
       <div class="abar"><button class="btn pri" data-act="log-add">+ 새 묶음 올리기</button></div>
-      ${l.length ? l.map((x,i) => `<div class="lgg"><div class="lgrow" style="border-bottom:0;padding-bottom:6px"><span style="flex:none;font-size:10px;color:var(--red);width:22px">${pad(i+1)}</span><span class="cf dt"><input data-log-id="${esc(x.id)}" data-log-f="date" value="${esc(x.date)}" placeholder="2026.10.31"></span><span class="cf"><input data-log-id="${esc(x.id)}" data-log-f="cap" value="${esc(x.cap)}" placeholder="캡션 (선택)"></span><button class="btn sm" data-act="log-mv" data-i="${i}" data-d="-1" ${i === 0 ? 'disabled' : ''} title="앞으로">↑</button><button class="btn sm" data-act="log-mv" data-i="${i}" data-d="1" ${i === l.length - 1 ? 'disabled' : ''} title="뒤로">↓</button><button class="btn sm" data-act="log-del" data-id="${esc(x.id)}">묶음 삭제</button></div><div class="lths">${x.srcs.map((sr,k) => `<span class="lth"><img src="${esc(imgSrc(sr))}" alt=""><button data-act="log-img-del" data-id="${esc(x.id)}" data-k="${k}" title="이 이미지만 빼기">×</button></span>`).join('')}<button class="btn sm" data-act="log-img-add" data-id="${esc(x.id)}">+ 이미지 추가</button>${i > 0 ? `<button class="btn sm" data-act="log-merge" data-id="${esc(x.id)}">위 묶음에 합치기</button>` : ''}</div></div>`).join('') : '<div class="none">아직 올린 이미지가 없어요</div>'}
+      ${l.length ? l.map((x,i) => `<div class="lgg"><div class="lgrow" style="border-bottom:0;padding-bottom:6px"><span style="flex:none;font-size:10px;color:var(--red);width:22px">${pad(i+1)}</span><span class="cf dt"><input data-log-id="${esc(x.id)}" data-log-f="date" value="${esc(x.date)}" placeholder="2026.10.31"></span><span class="cf"><input data-log-id="${esc(x.id)}" data-log-f="cap" value="${esc(x.cap)}" placeholder="캡션 (선택)"></span><button class="btn sm" data-act="log-mv" data-i="${i}" data-d="-1" ${i === 0 ? 'disabled' : ''} title="앞으로">↑</button><button class="btn sm" data-act="log-mv" data-i="${i}" data-d="1" ${i === l.length - 1 ? 'disabled' : ''} title="뒤로">↓</button><button class="btn sm" data-act="log-del" data-id="${esc(x.id)}">묶음 삭제</button></div><div class="lths">${x.srcs.map((sr,k) => `<span class="lth"><img src="${esc(imgSrc(sr))}" alt=""><button data-act="log-img-del" data-id="${esc(x.id)}" data-k="${k}" title="이 이미지만 빼기">×</button><span class="lmv"><button data-act="log-img-mv" data-id="${esc(x.id)}" data-k="${k}" data-d="-1" ${k === 0 ? 'disabled' : ''} title="앞으로">◀</button><button data-act="log-img-mv" data-id="${esc(x.id)}" data-k="${k}" data-d="1" ${k === x.srcs.length - 1 ? 'disabled' : ''} title="뒤로">▶</button></span></span>`).join('')}<button class="btn sm" data-act="log-img-add" data-id="${esc(x.id)}">+ 이미지 추가</button>${i > 0 ? `<button class="btn sm" data-act="log-merge" data-id="${esc(x.id)}">위 묶음에 합치기</button>` : ''}</div></div>`).join('') : '<div class="none">아직 올린 이미지가 없어요</div>'}
       <div class="fld" style="margin-top:14px"><small>이미지 4~10장을 한 번에 골라서 올리면 <b>한 묶음</b>으로 들어가요. 묶음 안의 이미지는 × 로 빼거나 + 로 더 넣을 수 있고, 따로 올라간 묶음은 '위 묶음에 합치기'로 합칠 수 있어요. 날짜와 캡션은 나중에 고칠 수 있어요. 올린 뒤 GITHUB에 저장하면 반영돼요.</small></div>`;
     },
     cats(){
@@ -2525,11 +2531,13 @@ b,strong{color:var(--white);font-weight:700}
     else if(a === 'log-add'){ uploadTarget = 'log'; afile.multiple = true; afile.click(); }
     else if(a === 'log-mv'){ const i = Number(b.dataset.i), k = i + Number(b.dataset.d), L = DATA.logs; if(L[k]){ [L[i], L[k]] = [L[k], L[i]]; markDirty(); renderSite(); aRender(); } }
     else if(a === 'log-img-add'){ uploadTarget = 'logadd:' + b.dataset.id; afile.multiple = true; afile.click(); }
+    else if(a === 'log-img-mv'){ const g = DATA.logs.find(x => x.id === b.dataset.id); if(g){ const k = Number(b.dataset.k), j = k + Number(b.dataset.d); if(g.srcs[j] !== undefined){ [g.srcs[k], g.srcs[j]] = [g.srcs[j], g.srcs[k]]; markDirty(); renderSite(); aRender(); aMsg('순서를 바꿨어요 (GITHUB에 저장해야 반영돼요)'); } } }
     else if(a === 'log-img-del'){ const g = DATA.logs.find(x => x.id === b.dataset.id); if(g){ g.srcs.splice(Number(b.dataset.k), 1); if(!g.srcs.length) DATA.logs = DATA.logs.filter(x => x.id !== g.id); markDirty(); renderSite(); aRender(); aMsg('뺐어요 (GitHub에 저장해야 반영돼요)'); } }
     else if(a === 'log-merge'){ const L = DATA.logs, i = L.findIndex(x => x.id === b.dataset.id); if(i > 0){ L[i - 1].srcs.push(...L[i].srcs); L.splice(i, 1); markDirty(); renderSite(); aRender(); aMsg('위 묶음에 합쳤어요 (GitHub에 저장해야 반영돼요)'); } }
     else if(a === 'log-del'){ const l = DATA.logs.find(x => x.id === b.dataset.id); if(l && confirm('이 묶음(이미지 ' + l.srcs.length + '장)을 LOG에서 삭제할까요?')){ DATA.logs = DATA.logs.filter(x => x.id !== l.id); markDirty(); renderSite(); aRender(); aMsg('삭제했어요 (GitHub에 저장해야 반영돼요)'); } }
     else if(a === 'file-add'){ afile2.click(); }
     else if(a === 'file-rm'){ editing.data.files.splice(Number(b.dataset.i), 1); aRender(); }
+    else if(a === 'img-mv'){ const L = editing.data.images, k = Number(b.dataset.i), j = k + Number(b.dataset.d); if(L[j] !== undefined){ [L[k], L[j]] = [L[j], L[k]]; aRender(); } }
     else if(a === 'img-rm'){ editing.data.images.splice(Number(b.dataset.i), 1); aRender(); }
     else if(a === 'pw-clear'){ editing.data.pw = ''; aRender(); aMsg('비밀번호를 풀었어요 (완료를 눌러야 반영돼요)'); }
     else if(a === 'post-cancel'){ editing = null; aRender(); }
