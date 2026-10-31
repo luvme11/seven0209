@@ -679,6 +679,13 @@
   .vsel{margin:auto; text-align:center; font-size:12px; color:#777; letter-spacing:.1em}
   .vsel b{display:block; font-size:10px; letter-spacing:.3em; color:var(--red); margin-bottom:10px}
   .vsel::after{content:"_"; animation:blink 1s steps(1) infinite; color:var(--red)}
+  /* LOG 탭 안에서 바로 보이는 글 목록/읽기 (새 창 없음) */
+  #logPosts{margin-bottom:26px}
+  #logPosts .lplist{border:1px solid var(--line); background:var(--panel)}
+  #logPosts .lplist .vi:last-child{border-bottom:0}
+  #logPosts .vread.lreader{overflow:visible; padding:0}
+  #logPosts .lback{align-self:flex-start; margin-bottom:18px; background:none; border:1px solid var(--line); color:#aaa; font:500 10px/1 "Pretendard",sans-serif; letter-spacing:.16em; padding:10px 14px; cursor:pointer}
+  #logPosts .lback:hover{border-color:var(--red); color:#fff}
 
   .vf{display:flex; align-items:center; justify-content:space-between; padding:0 20px; border-top:1px solid var(--line); font-size:9px; letter-spacing:.2em; color:#666; background:#0b0b0b}
   .vf b{color:var(--red); font-weight:500}
@@ -849,7 +856,7 @@ input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]):
   <nav id="nav">
     <button class="on" data-t="home">HOME</button>
     <button data-t="profile">PAIR</button>
-    <button data-open="cat:log">LOG</button>
+    <button data-t="log">LOG</button>
     <button data-t="links">LINKS</button>
     <button data-open="all">RECORDS</button>
     <button data-open="cat:notice">NOTICE</button>
@@ -895,6 +902,7 @@ input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]):
     <!-- LOG -->
     <section class="tab" id="log">
       <div class="sh">LOG</div>
+      <div id="logPosts"></div>
       <div class="lgrid" id="logList"></div>
     </section>
 
@@ -1514,7 +1522,42 @@ b,strong{color:var(--white);font-weight:700}
   }
 
   // ============ LOG (한 번에 올린 이미지 묶음 = 작은 썸네일 하나, 누르면 ‹ › 로 한 장씩) ============
+  // LOG 글: LOG 탭 안에서 목록 → 글 읽기 (새 창 없이)
+  let logSel = null;
+  function drawLogPosts(){
+    const host = $('#logPosts'); if(!host) return;
+    const list = postsOf(LOGC);
+    if(!list.some(p => p.id === logSel)) logSel = null;
+    if(!logSel){
+      host.innerHTML = list.length ? `<div class="lplist">${list.map(p => `<div class="vi" data-lpost="${esc(p.id)}"><small>${esc(p.date)}</small><b>${p.pw ? '<svg class="plk" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>' : ''}${esc(p.title)}</b><p>${excerpt(p,56)}</p></div>`).join('')}</div>` : '';
+      return;
+    }
+    const i = list.findIndex(p => p.id === logSel), p = list[i];
+    const fsz = n => n >= 1048576 ? (n/1048576).toFixed(n >= 10485760 ? 0 : 1) + 'MB' : Math.max(1, Math.round(n/1024)) + 'KB';
+    const fext = n => ((/\.([^.]+)$/.exec(n || '') || [])[1] || 'FILE').slice(0,5).toUpperCase();
+    const atts = f => (f || []).length ? `<div class="atts"><div class="ah"><b>ATTACHMENTS</b> 첨부파일 ${f.length}</div>${f.map(x => `<div class="att"><span class="ext">${esc(fext(x.name))}</span><span class="nm" title="${esc(x.name)}">${esc(x.name)}</span><span class="sz">${x.size ? fsz(x.size) : ''}</span><a class="dl" href="${esc(imgSrc(x.src))}" download="${esc(x.name)}"><svg viewBox="0 0 12 12"><path d="M6 1v7M3 5.5 6 8.5 9 5.5M1.5 11h9"/></svg>DOWNLOAD</a></div>`).join('')}</div>` : '';
+    const nav = `<div class="vnav"><button data-lstep="1" ${i >= list.length-1 ? 'disabled' : ''}>◂ PREV</button><button data-lstep="-1" ${i <= 0 ? 'disabled' : ''}>NEXT ▸</button></div>`;
+    host.innerHTML = `<div class="vread lreader"><button class="lback" data-lback>◂ LIST</button>` + (isLocked(p)
+      ? lockedView(p, i, list).replace(/data-step/g, 'data-lstep')
+      : `<span class="tg">${esc(catOf(p.cat).name.toUpperCase())}</span><h2>${esc(p.title)}</h2><div class="dt">${esc(p.date)}</div><div class="pb">${fmt(p.body)}</div>${(p.images || []).length ? `<div class="pimgs">${p.images.map(s => `<img src="${esc(imgSrc(s))}" alt="" loading="lazy">`).join('')}</div>` : ''}${atts(p.files)}${nav}`) + `</div>`;
+    host.querySelectorAll('script').forEach(o => { const n = document.createElement('script'); [...o.attributes].forEach(at => n.setAttribute(at.name, at.value)); n.textContent = o.textContent; o.replaceWith(n); });
+  }
+  function goLog(id){
+    logSel = id || null; drawLogPosts();
+    const b = document.querySelector('#nav button[data-t="log"]'); if(b) b.click();
+    if(id) askLockLog();
+  }
+  const askLockLog = () => { const p = DATA.posts.find(x => x.id === logSel); if(p && isLocked(p)) pwOpen(p.id); };
+  document.addEventListener('click', e => {
+    const host = $('#logPosts'); if(!host || !host.contains(e.target)) return;
+    const o = e.target.closest('[data-lpost]'); if(o){ logSel = o.dataset.lpost; drawLogPosts(); document.querySelector('.main').scrollTop = 0; askLockLog(); return; }
+    if(e.target.closest('[data-lback]')){ logSel = null; drawLogPosts(); document.querySelector('.main').scrollTop = 0; return; }
+    const st = e.target.closest('[data-lstep]');
+    if(st){ const l = postsOf(LOGC), k = l.findIndex(p => p.id === logSel) + Number(st.dataset.lstep); if(l[k]){ logSel = l[k].id; drawLogPosts(); document.querySelector('.main').scrollTop = 0; askLockLog(); } }
+  });
+
   function drawLog(){
+    drawLogPosts();
     const L = DATA.logs, host = $('#logList');
     if(!L.length){ host.innerHTML = '<div class="none">아직 올라온 이미지가 없어요</div>'; return; }
     host.innerHTML = L.map(g => `<div class="lcard" data-lb="${esc(g.id)}"><img src="${esc(imgSrc(g.srcs[0]))}" alt="${esc(g.cap)}" draggable="false" loading="lazy">${g.srcs.length > 1 ? `<span class="cnt">${g.srcs.length}장</span>` : ''}<div class="lm"><b>${esc(g.date)}</b><span>${esc(g.cap)}</span></div></div>`).join('');
@@ -1915,6 +1958,8 @@ b,strong{color:var(--white);font-weight:700}
 
   function openVault(spec){
     const [t,v] = spec.split(':');
+    if(t === 'cat' && v === LOGC){ goLog(null); return; }
+    if(t === 'post'){ const q = DATA.posts.find(x => x.id === v); if(q && q.cat === LOGC){ goLog(q.id); return; } }
     if(t === 'post'){ const p = DATA.posts.find(x => x.id === v); if(!p) return; cat = p.cat; sel = p.id; reading = true; }
     else { cat = t === 'cat' ? v : 'all'; sel = null; reading = false; }
     mode = cat === NOTICE ? 'notice' : cat === LOGC ? 'log' : 'records';
