@@ -97,11 +97,30 @@
     "body": "Aftermess (@qwerty) 7"
   },
   "radio": {
-    "title": "1",
+    "title": "7",
     "ch": "01",
     "freq": "148.15",
     "speed": "normal",
-    "msgs": []
+    "msgs": [
+      {
+        "t": "RX",
+        "from": "베로니카, 보고 싶어.",
+        "text": "",
+        "time": ""
+      },
+      {
+        "t": "RX",
+        "from": "대답해 주면 안 돼?",
+        "text": "",
+        "time": ""
+      },
+      {
+        "t": "TX",
+        "from": "무전기에 사적인 말 하지 마, 키스.",
+        "text": "",
+        "time": ""
+      }
+    ]
   },
   "msg": {
     "name": "NAME",
