@@ -1498,7 +1498,7 @@ b,strong{color:var(--white);font-weight:700}
   const cleanTag = raw => raw.replace(/\b(src|href|poster)=(["'])([^"']+)\2/gi, (m, k, q, v) => IMGPREVIEW[v] ? `${k}=${q}${IMGPREVIEW[v]}${q}` : m);
   const fmt = src => {
     const keep = [], hold = x => '\u0000' + (keep.push(x) - 1) + '\u0000';
-    src = String(src ?? '').replace(/<(script|style)\b[\s\S]*?<\/\1\s*>/gi, m => hold(m))
+    src = String(src ?? '').replace(/<!doctype[^>]*>/gi, '').replace(/<(script|style)\b[\s\S]*?<\/\1\s*>/gi, m => hold(m))
       .replace(/<\/?[a-zA-Z][^>]*>/g, tag => hold(cleanTag(tag)));
     const link = (url, label) => hold(`<a href="${safeUrl(url)}" target="_blank" rel="noopener noreferrer">${label}</a>`);
     let out = '', afterBlock = true;
@@ -1528,7 +1528,7 @@ b,strong{color:var(--white);font-weight:700}
     if(!needsFrame(src)) return fmt(src);
     const id = 'hf' + (++HF_N);
     const rep = '(function(){var id="' + id + '",w=document.getElementById("__hw"),last=-1;function send(){var h=Math.ceil(w.getBoundingClientRect().height);if(h!==last){last=h;parent.postMessage({hf:id,h:h},"*");}}if(window.ResizeObserver)new ResizeObserver(send).observe(w);addEventListener("load",send);setInterval(send,400);send();})();';
-    const doc = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base target="_blank"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"><style>' + FRAME_CSS + '</style></head><body><div id="__hw">' + fmt(src) + '</div><script>' + rep + '<\/script></body></html>';
+    const doc = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base target="_blank"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"><style>' + FRAME_CSS + '</style><style>#editor-ui,.toolbar,.addbar,.modal{display:none!important}body{padding:0!important;min-height:0!important}</style></head><body><div id="__hw">' + fmt(src) + '</div><script>' + rep + '<\/script></body></html>';
     return `<iframe class="hframe" data-hf="${id}" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox" srcdoc="${esc(doc)}" style="display:block;width:100%;height:300px;border:0;background:transparent"></iframe>`;
   };
   addEventListener('message', e => {
