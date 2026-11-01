@@ -587,11 +587,6 @@
   .vr2 .btn{padding:8px 11px}
   .vr2 .vx{margin-left:0}
   .vault[hidden]{display:none}
-  /* LOG / LINKS 팝업 창 (NOTICE·RECORDS처럼 바로 열리는 창) */
-  .pbody{min-height:0; overflow-y:auto; background:#0b0b0b; padding:26px 30px 30px; scrollbar-width:thin; scrollbar-color:#333 transparent}
-  .pbody .tab{display:block; animation:none}
-  .pbody .sh{display:none}
-  @media (max-width:640px){ .pbody{padding:18px 16px 24px} }
   .vp{
     position:relative; width:min(1000px,calc(100vw - 28px)); height:min(600px,calc(100vh - 28px));
     border:1px solid var(--line);
@@ -945,24 +940,6 @@ html,body,*{cursor:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCA
       <div class="vread" id="vread"></div>
     </div>
     <div class="vf"><span id="vstat">0 RECORDS</span><span><b>●</b> <span id="vtag" style="color:inherit">ARCHIVE ONLINE</span></span></div>
-  </div>
-</div>
-
-<div class="vault" id="logv" hidden>
-  <div class="vp wide">
-    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-    <div class="vh"><span class="sp"></span><b>LOG</b><small>// LOG BOOK</small><button class="vx" data-popx title="닫기"></button></div>
-    <div class="pbody"></div>
-    <div class="vf"><span>LOG</span><span><b>●</b> LOG ONLINE</span></div>
-  </div>
-</div>
-
-<div class="vault" id="linksv" hidden>
-  <div class="vp wide">
-    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-    <div class="vh"><span class="sp"></span><b>LINKS</b><small>// EXTERNAL LINKS</small><button class="vx" data-popx title="닫기"></button></div>
-    <div class="pbody"></div>
-    <div class="vf"><span>LINKS</span><span><b>●</b> LINKS ONLINE</span></div>
   </div>
 </div>
 
@@ -1635,10 +1612,10 @@ b,strong{color:var(--white);font-weight:700}
   document.addEventListener('click', e => {
     const host = $('#logPosts'); if(!host || !host.contains(e.target)) return;
     const sc = e.target.closest('[data-lsub]'); if(sc){ logSub = sc.dataset.lsub; drawLogPosts(); return; }
-    const o = e.target.closest('[data-lpost]'); if(o){ logSel = o.dataset.lpost; drawLogPosts(); document.querySelector('.main').scrollTop = 0; $('#logv .pbody').scrollTop = 0; askLockLog(); return; }
-    if(e.target.closest('[data-lback]')){ logSel = null; drawLogPosts(); document.querySelector('.main').scrollTop = 0; $('#logv .pbody').scrollTop = 0; return; }
+    const o = e.target.closest('[data-lpost]'); if(o){ logSel = o.dataset.lpost; drawLogPosts(); document.querySelector('.main').scrollTop = 0; askLockLog(); return; }
+    if(e.target.closest('[data-lback]')){ logSel = null; drawLogPosts(); document.querySelector('.main').scrollTop = 0; return; }
     const st = e.target.closest('[data-lstep]');
-    if(st){ const l0 = postsOf(LOGC), l = logSub ? l0.filter(p => (p.sub || '').trim() === logSub) : l0, k = l.findIndex(p => p.id === logSel) + Number(st.dataset.lstep); if(l[k]){ logSel = l[k].id; drawLogPosts(); document.querySelector('.main').scrollTop = 0; $('#logv .pbody').scrollTop = 0; askLockLog(); } }
+    if(st){ const l0 = postsOf(LOGC), l = logSub ? l0.filter(p => (p.sub || '').trim() === logSub) : l0, k = l.findIndex(p => p.id === logSel) + Number(st.dataset.lstep); if(l[k]){ logSel = l[k].id; drawLogPosts(); document.querySelector('.main').scrollTop = 0; askLockLog(); } }
   });
 
   function drawLog(){
@@ -2382,7 +2359,7 @@ b,strong{color:var(--white);font-weight:700}
           <div class="fld"><label>DATE</label><input data-pf="date" value="${esc(d.date)}" placeholder="2026.10.31"></div>
         </div>
         <div class="fld"><label>TITLE</label><input data-pf="title" value="${esc(d.title)}"></div>
-        <div class="fld"><label>SUBTITLE · 부제목 (RECORDS / NOTICE 목록에서 제목 아래에 보여요 · 비우면 본문 앞부분이 보여요)</label><input data-pf="subtitle" value="${esc(d.subtitle || '')}" placeholder="예: 퓨어.kr 오픈♡"></div>
+        <div class="fld" id="subFld"${d.cat === LOGC ? ' style="display:none"' : ''}><label>SUBTITLE · 부제목 (NOTICE / RECORDS 목록에서 제목 아래에 보여요 · 비우면 본문 앞부분이 보여요)</label><input data-pf="subtitle" value="${esc(d.subtitle || '')}" placeholder="부제목을 입력하세요"></div>
         <div class="fld"><label>LOG 분류 (LOG 글일 때만 · 비우면 분류 없음)</label><input data-pf="sub" value="${esc(d.sub || '')}" placeholder="예: OOC, 일상, 설정"></div>
         <div class="fld"><label>PASSWORD · 비밀번호 (비우면 공개 글)</label>
           <div style="display:flex; gap:10px"><input type="text" data-pw-in autocomplete="off" placeholder="${d.pw ? '새 비밀번호로 바꾸려면 여기에 입력' : '비밀번호를 걸려면 여기에 입력'}"><button class="btn" data-act="pw-clear" ${d.pw ? '' : 'disabled'}>해제</button></div>
@@ -2715,7 +2692,7 @@ b,strong{color:var(--white);font-weight:700}
     const t = e.target;
     if(t.dataset.gh){ GH[t.dataset.gh] = t.value.trim(); saveGH(); return; }
     if(t.dataset.pwIn !== undefined && editing){ editing.data.pw = t.value ? pwHash(t.value, editing.data.id) : ''; const st = $('#pwStat'); if(st) st.textContent = t.value ? '🔒 이 비밀번호로 걸려요 (완료를 눌러야 반영돼요)' : '비밀번호 없이 공개돼요'; return; }
-    if(t.dataset.pf){ editing.data[t.dataset.pf] = t.value; saveDraft(); return; }
+    if(t.dataset.pf){ editing.data[t.dataset.pf] = t.value; if(t.dataset.pf === 'cat'){ const sf = document.getElementById('subFld'); if(sf) sf.style.display = t.value === LOGC ? 'none' : ''; } saveDraft(); return; }
     if(t.dataset.bgmVol !== undefined){
       const v = Number(t.value); DATA.bgm.volume = v; $('#bgmVolNum').textContent = v; markDirty();
       try { localStorage.setItem(VOLKEY, String(v)); } catch(_){}
@@ -2802,7 +2779,6 @@ b,strong{color:var(--white);font-weight:700}
   addEventListener('keydown', e => {
     if(!$('#pwv').hidden){ if(e.key === 'Escape') pwClose(); else if(e.key === 'Enter') pwTry(); return; }
     if(!lbox.hidden){ if(e.key === 'Escape') lbClose(); else if(e.key === 'ArrowLeft') lbStep(-1); else if(e.key === 'ArrowRight') lbStep(1); return; }
-    if(popOpen() && adm.hidden){ if(e.key === 'Escape') closePops(); return; }
     if(!wlEl.hidden && adm.hidden){ if(e.key === 'Escape') closeWL(); return; }
     if(!wwEl.hidden && adm.hidden){ if(e.key === 'Escape') closeWW(); return; }
     if(!mgEl.hidden && adm.hidden){ if(e.key === 'Escape') closeMsg(); return; }
@@ -2818,19 +2794,9 @@ b,strong{color:var(--white);font-weight:700}
 
   // ---- 탭 전환 / 시계 ----
   const btns = document.querySelectorAll('#nav button[data-t]');
-  // LOG / LINKS 는 탭 대신 팝업 창으로 바로 열려요 (기존 내용은 그대로 창 안으로 옮김)
-  const POPS = {log:$('#logv'), links:$('#linksv')};
-  $('#logv .pbody').appendChild($('#log')); $('#linksv .pbody').appendChild($('#links'));
-  const syncNav = () => { const cur = document.querySelector('.tab.on'); const id = cur ? cur.id : 'home'; btns.forEach(x => x.classList.toggle('on', x.dataset.t === id)); };
-  const closePops = () => { Object.values(POPS).forEach(v => v.hidden = true); syncNav(); };
-  const popOpen = () => Object.values(POPS).some(v => !v.hidden);
-  const openPop = k => { try{ closeVault(); }catch(e){} Object.entries(POPS).forEach(([n, v]) => v.hidden = n !== k); btns.forEach(x => x.classList.toggle('on', x.dataset.t === k)); POPS[k].querySelector('.pbody').scrollTop = 0; };
-  Object.values(POPS).forEach(v => {
-    v.addEventListener('click', e => { if(e.target === v || e.target.closest('[data-popx]')) closePops(); });
-  });
-  btns.forEach(b => b.addEventListener('click', () => {
-    if(POPS[b.dataset.t]){ openPop(b.dataset.t); return; }
-    closePops();
+  btns.forEach(b => b.addEventListener('click', ev => {
+    // 메뉴의 LOG 버튼을 직접 누르면 항상 LOG 첫 화면(글 목록)으로 돌아가요
+    if(ev.isTrusted && b.dataset.t === 'log'){ logSel = null; logSub = ''; drawLogPosts(); }
     btns.forEach(x => x.classList.toggle('on', x === b));
     document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.id === b.dataset.t));
     document.querySelector('.main').scrollTop = 0;
