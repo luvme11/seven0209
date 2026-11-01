@@ -788,33 +788,21 @@
   "links": [
     {
       "t": "TWITTER / X",
-      "s": "@handle",
-      "u": "#"
+      "s": "@noxuelux",
+      "u": "https://x.com/noxuelux",
+      "img": "images/mvxfio1c-from-pixai-2073488560576827456.png"
     },
     {
-      "t": "INSTAGRAM",
-      "s": "@handle",
-      "u": "#"
+      "t": "HOME 1",
+      "s": "개인 홈 목록 1",
+      "u": "https://luvme11.github.io/link/",
+      "img": "images/mvxflf8z-from-pixai-2073156643733920781.png"
     },
     {
-      "t": "GITHUB",
-      "s": "github.com/username",
-      "u": "#"
-    },
-    {
-      "t": "PORTFOLIO",
-      "s": "작업물 모아 보기",
-      "u": "#"
-    },
-    {
-      "t": "PIXIV / POSTYPE",
-      "s": "연재 · 그림",
-      "u": "#"
-    },
-    {
-      "t": "CONTACT",
-      "s": "메일 · 오픈채팅",
-      "u": "#"
+      "t": "HOME 2",
+      "s": "개인 홈 목록 2",
+      "u": "https://luvme11.github.io/link2/",
+      "img": "images/mvxfkkxq-from-pixai-2073156710426430803.png"
     }
   ]
 }
