@@ -1502,7 +1502,10 @@ b,strong{color:var(--white);font-weight:700}
       .replace(/<\/?[a-zA-Z][^>]*>/g, tag => hold(cleanTag(tag)));
     const link = (url, label) => hold(`<a href="${safeUrl(url)}" target="_blank" rel="noopener noreferrer">${label}</a>`);
     let out = '', afterBlock = true;
-    src.split('\n').forEach(ln => {
+    const BLK0 = /^<\/?(div|p|section|article|header|footer|nav|main|ul|ol|li|table|thead|tbody|tr|td|th|h[1-6]|figure|figcaption|center|br|hr|svg|canvas|details|summary|blockquote|pre)\b/i;
+    const isTagLn = x => { const t = esc(x); if(!t.replace(/\u0000\d+\u0000/g, '').trim() && /\u0000/.test(t)) return true; const m1 = /^\s*\u0000(\d+)\u0000/.exec(t), m2 = /\u0000(\d+)\u0000\s*$/.exec(t); return !!(m1 && m2 && BLK0.test(keep[m1[1]]) && BLK0.test(keep[m2[1]])); };
+    const lines = src.split('\n');
+    lines.forEach((ln, li) => {
       if(/^\s*-{3,}\s*$/.test(ln)){ out += '<hr class="ph-hr">'; afterBlock = true; return; }
       let t = esc(ln).replace(/&amp;(amp|lt|gt|quot|nbsp|#\d+|#x[0-9a-fA-F]+);/g, '&$1;');
       let onlyTags = !t.replace(/\u0000\d+\u0000/g, '').trim() && /\u0000/.test(t);
@@ -1511,7 +1514,10 @@ b,strong{color:var(--white);font-weight:700}
         if(m1 && m2 && BLK.test(keep[m1[1]]) && BLK.test(keep[m2[1]])) onlyTags = true;
       }
       if(onlyTags) t = t.trim();                       // HTML 코드의 들여쓰기가 공백으로 늘어나지 않게
-      else if(!ln.trim() && afterBlock) return;       // 태그 줄 바로 뒤의 빈 줄은 건너뜀
+      else if(!ln.trim() && afterBlock){               // HTML 태그 줄들 사이의 빈 줄만 건너뜀 (뒤에 글이 이어지면 엔터로 띄운 간격 유지)
+        let j = li + 1; while(j < lines.length && !lines[j].trim()) j++;
+        if(j >= lines.length || isTagLn(lines[j])) return;
+      }
       t = t.replace(/\[([^\]\n]+)\]\(([^)\s]+)\)/g, (m, label, url) => link(url, inlineFmt(label)));
       t = t.replace(/(^|[\s(>])(https?:\/\/[^\s<>"]+?)(?=[.,!?)]*(?:\s|$))/g, (m, pre, url) => pre + link(url, url));
       out += (afterBlock ? '' : '\n') + t; afterBlock = onlyTags;
