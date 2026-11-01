@@ -601,20 +601,7 @@
       "sub": "로그"
     }
   ],
-  "posts": [
-    {
-      "id": "lg_gmvx16y2efrr",
-      "cat": "log",
-      "date": "2026.11.01",
-      "title": "2026.11.01",
-      "body": "",
-      "images": [
-        "images/mvx16usv-261101_7_7.png",
-        "images/mvx16xni-261101_7_7-1.png"
-      ],
-      "files": []
-    }
-  ],
+  "posts": [],
   "logs": [],
   "links": [
     {
