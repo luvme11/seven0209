@@ -658,6 +658,12 @@
   .fmtbar button{background:#0e0e0e; border:1px solid var(--line); color:#ccc; font:600 12px/1 "Pretendard",sans-serif; min-width:36px; padding:9px 11px; cursor:pointer; transition:.15s}
   .fmtbar button:hover{border-color:var(--red); color:#fff}
   .fmtbar .hl{background:rgba(214,44,44,.32); color:#fff}
+  .fmtbar .hlgrp{display:inline-flex; align-items:center; gap:5px; padding-right:4px}
+  .fmtbar .hlsw{min-width:0; width:22px; height:22px; padding:0; border:1px solid rgba(255,255,255,.25); border-radius:50%; cursor:pointer; position:relative; overflow:hidden; display:inline-block}
+  .fmtbar .hlsw:hover{transform:scale(1.15); border-color:#fff}
+  .fmtbar .hlcustom{background:conic-gradient(#f44,#fc4,#4f4,#4cf,#84f,#f4a,#f44)}
+  .fmtbar .hlcustom input{position:absolute; inset:-6px; width:40px; height:40px; opacity:0; cursor:pointer}
+  .fmtbar .hlx{background:#0e0e0e; color:#aaa; font-size:10px; line-height:20px}
   .pimgs{display:grid; gap:14px; margin-top:24px}
   .pimgs img{width:100%; display:block; border:1px solid var(--line)}
   /* ===== 첨부파일 (글 맨 아래) ===== */
@@ -1461,11 +1467,24 @@ b,strong{color:var(--white);font-weight:700}
     return out;
   };
   const excerpt = (p,n) => isLocked(p) ? '비밀글입니다' : esc(plain(p.body).replace(/\s+/g,' ').trim().slice(0,n));
+  // 굵게/기울임/형광펜/취소선 — 줄바꿈을 넘어서도 적용돼요 (빈 줄에서는 끊김)
+  const SP = '(?:(?!\\n[ \\t]*\\n)[\\s\\S])';
+  const RE_B = new RegExp('\\*\\*(' + SP + '*?\\S' + SP + '*?)\\*\\*', 'g');
+  const RE_M = new RegExp('==(?:\\{(#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3})\\})?(' + SP + '*?\\S' + SP + '*?)==', 'g');
+  const RE_S = new RegExp('~~(' + SP + '*?\\S' + SP + '*?)~~', 'g');
+  const RE_I = new RegExp('\\*(?!\\s)((?:(?!\\n[ \\t]*\\n)[^*])+?)\\*', 'g');
+  const hlMark = (m, col, txt) => {
+    if(!col) return '<mark>' + txt + '</mark>';
+    let h = col.slice(1); if(h.length === 3) h = h.replace(/./g, '$&$&');
+    const r = parseInt(h.slice(0,2), 16), g = parseInt(h.slice(2,4), 16), b = parseInt(h.slice(4,6), 16);
+    const lum = (0.299*r + 0.587*g + 0.114*b) / 255;
+    return `<mark style="background:rgba(${r},${g},${b},.62);color:${lum > .6 ? '#111' : '#fff'};box-shadow:0 0 10px rgba(${r},${g},${b},.35)">${txt}</mark>`;
+  };
   const inlineFmt = s => s
-    .replace(/\*\*(?!\s)([^\n]+?)\*\*/g, '<b>$1</b>')
-    .replace(/==(?!\s)([^\n]+?)==/g, '<mark>$1</mark>')
-    .replace(/~~(?!\s)([^\n]+?)~~/g, '<s>$1</s>')
-    .replace(/\*(?!\s)([^*\n]+?)\*/g, '<i>$1</i>');
+    .replace(RE_B, '<b>$1</b>')
+    .replace(RE_M, hlMark)
+    .replace(RE_S, '<s>$1</s>')
+    .replace(RE_I, '<i>$1</i>');
   // ---- HTML 코드 허용 (스크립트/이벤트/위험한 주소는 자동으로 제거) ----
   const BAD_TAGS = new Set(['script','style','link','meta','base','object','embed','form','input','button','textarea','select','option','frame','frameset','applet','noscript','template','title','head','html','body']);
   const URL_ATTR = new Set(['href','src','poster','cite']);
@@ -1489,10 +1508,9 @@ b,strong{color:var(--white);font-weight:700}
       const onlyTags = !t.replace(/\u0000\d+\u0000/g, '').trim() && /\u0000/.test(t);
       t = t.replace(/\[([^\]\n]+)\]\(([^)\s]+)\)/g, (m, label, url) => link(url, inlineFmt(label)));
       t = t.replace(/(^|[\s(>])(https?:\/\/[^\s<>"]+?)(?=[.,!?)]*(?:\s|$))/g, (m, pre, url) => pre + link(url, url));
-      t = inlineFmt(t).replace(/\u0000(\d+)\u0000/g, (m, n) => keep[n]);
       out += (afterBlock ? '' : '\n') + t; afterBlock = onlyTags;
     });
-    return out;
+    return inlineFmt(out).replace(/\u0000(\d+)\u0000/g, (m, n) => keep[n]);
   };
 
   // ============ D-DAY ============
@@ -2314,7 +2332,7 @@ b,strong{color:var(--white);font-weight:700}
           <div class="fmtbar">
             <button type="button" data-fmt="b" title="굵게 (Ctrl+B)"><b>B</b></button>
             <button type="button" data-fmt="i" title="기울임 (Ctrl+I)"><i>I</i></button>
-            <button type="button" data-fmt="mark" class="hl" title="형광펜">형광펜</button>
+            <span class="hlgrp"><button type="button" data-fmt="mark" class="hl" title="형광펜 (마지막에 쓴 색)">형광펜</button>${HL_COLORS.map(c => `<button type="button" class="hlsw" data-hl="${c}" title="${c}" style="background:${c}"></button>`).join('')}<label class="hlsw hlcustom" title="직접 색 고르기"><input type="color" id="hlCustom" value="${hlLast()}"></label><button type="button" class="hlsw hlx" data-hl="none" title="선택한 형광펜 지우기">✕</button></span>
             <button type="button" data-fmt="s" title="취소선"><s>S</s></button>
             <button type="button" data-fmt="a" title="링크 (Ctrl+K)">링크</button>
             <button type="button" data-fmt="hr" title="구분선">─ 구분선</button>
@@ -2642,12 +2660,30 @@ b,strong{color:var(--white);font-weight:700}
   adm.addEventListener('input', e => { if(e.target.matches && e.target.matches('textarea[data-pf="body"]')) pvUpdate(e.target.value); });
 
   // ---- 글쓰기 서식 툴바 ----
-  function fmtApply(kind){
+  const HL_DEF = '#d62c2c';
+  const HL_COLORS = ['#d62c2c', '#ffd400', '#ff8a3d', '#ff7eb6', '#4cd964', '#4fc3f7', '#b388ff', '#e0e0e0'];
+  const hlLast = () => { try { return localStorage.getItem('hlColor') || HL_DEF; } catch(e){ return HL_DEF; } };
+  function fmtApply(kind, color){
     const ta = adm.querySelector('textarea[data-pf="body"]'); if(!ta) return;
-    const v = ta.value, s = ta.selectionStart, e = ta.selectionEnd, sel = v.slice(s, e);
+    let v = ta.value, s = ta.selectionStart, e = ta.selectionEnd;
+    if(kind === 'mark'){   // 형광펜 안쪽 글자만 골라도 그 형광펜의 색을 바꿔요
+      const pre = /==(\{#[0-9a-fA-F]{3,6}\})?$/.exec(v.slice(0, s));
+      if(pre && v.slice(e, e + 2) === '==' && !/==/.test(v.slice(s, e))){ s -= pre[0].length; e += 2; }
+    }
+    const sel = v.slice(s, e);
     const W = {b:['**','**','굵은 글씨'], i:['*','*','기울인 글씨'], mark:['==','==','형광펜'], s:['~~','~~','취소선']};
     let ins, cs, ce;
-    if(W[kind]){
+    if(kind === 'mark'){
+      const col = color || hlLast();
+      const m = /^==(?:\{#[0-9a-fA-F]{3,6}\})?([\s\S]*?)==$/.exec(sel);
+      const inner = m ? m[1] : sel;                       // 이미 형광펜이면 색만 바꿔요
+      if(color === 'none'){ if(!m) return; ins = inner; cs = s; ce = s + inner.length; }
+      else {
+        try { if(color) localStorage.setItem('hlColor', col); } catch(e){}
+        const o = '==' + (col.toLowerCase() === HL_DEF ? '' : '{' + col.toLowerCase() + '}'), txt = inner || '형광펜';
+        ins = o + txt + '=='; cs = s + o.length; ce = cs + txt.length;
+      }
+    } else if(W[kind]){
       const [o, c, d] = W[kind], txt = sel || d;
       ins = o + txt + c; cs = s + o.length; ce = cs + txt.length;
     } else if(kind === 'a'){
@@ -2667,8 +2703,12 @@ b,strong{color:var(--white);font-weight:700}
     }
     ta.setSelectionRange(cs, ce);
   }
-  adm.addEventListener('mousedown', e => { if(e.target.closest('[data-fmt]')) e.preventDefault(); });
-  adm.addEventListener('click', e => { const b = e.target.closest('[data-fmt]'); if(b) fmtApply(b.dataset.fmt); });
+  adm.addEventListener('mousedown', e => { if(e.target.closest('[data-fmt], [data-hl]')) e.preventDefault(); });
+  adm.addEventListener('click', e => {
+    const h = e.target.closest('[data-hl]'); if(h){ fmtApply('mark', h.dataset.hl); return; }
+    const b = e.target.closest('[data-fmt]'); if(b) fmtApply(b.dataset.fmt);
+  });
+  adm.addEventListener('change', e => { if(e.target.id === 'hlCustom') fmtApply('mark', e.target.value); });
   adm.addEventListener('keydown', e => {
     if(!(e.ctrlKey || e.metaKey) || !e.target.matches || !e.target.matches('textarea[data-pf="body"]')) return;
     const k = {b:'b', i:'i', k:'a'}[e.key.toLowerCase()];
