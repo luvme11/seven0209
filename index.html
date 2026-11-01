@@ -694,6 +694,25 @@
   #logPosts .lcats button em{font-style:normal; color:var(--red); margin-left:7px}
   #logPosts .lplist{border:1px solid var(--line); background:var(--panel)}
   #logPosts .lplist .vi:last-child{border-bottom:0}
+  /* LOG 페이지 번호 */
+  #logPosts .lpager{display:flex; flex-wrap:wrap; justify-content:center; gap:6px; margin-top:16px}
+  #logPosts .lpager button{min-width:34px; height:34px; padding:0 10px; background:none; border:1px solid var(--line); color:#999; font:500 11px/1 "Pretendard",sans-serif; letter-spacing:.08em; cursor:pointer; transition:.15s}
+  #logPosts .lpager button:hover:not(:disabled){border-color:var(--red-dim); color:#fff}
+  #logPosts .lpager button.on{border-color:var(--red); color:#fff; background:rgba(214,44,44,.12)}
+  #logPosts .lpager button:disabled{opacity:.3; cursor:default}
+  /* LOG 글 이미지 슬라이드 (작게, 한 장씩) */
+  #logPosts .lslide{width:100%; max-width:420px; margin-top:24px; user-select:none}
+  #logPosts .lsf{position:relative; border:1px solid var(--line); background:#0a0a0a}
+  #logPosts .lsv{overflow:hidden; touch-action:pan-y}
+  #logPosts .lst{display:flex; transition:transform .3s ease}
+  #logPosts .lst figure{flex:0 0 100%; margin:0; display:flex; align-items:center; justify-content:center; height:min(52vh,380px); padding:10px}
+  #logPosts .lst img{max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; display:block; -webkit-user-drag:none}
+  #logPosts .lsn{position:absolute; top:calc(50% - 22px); width:34px; height:44px; background:rgba(0,0,0,.6); border:1px solid var(--line); color:#fff; font-size:18px; line-height:1; cursor:pointer; transition:.15s; z-index:1}
+  #logPosts .lsn.p{left:0; border-left:0} #logPosts .lsn.n{right:0; border-right:0}
+  #logPosts .lsn:hover:not(:disabled){border-color:var(--red); background:rgba(214,44,44,.25)}
+  #logPosts .lsn:disabled{opacity:.25; cursor:default}
+  #logPosts .lsc{margin-top:8px; text-align:center; font-size:10px; letter-spacing:.14em; color:#777}
+  #logPosts .vread .pb img{max-width:min(100%,420px); max-height:60vh; object-fit:contain}
   #logPosts .vread.lreader{overflow:visible; padding:0}
   #logPosts .lback{align-self:flex-start; margin-bottom:18px; background:none; border:1px solid var(--line); color:#aaa; font:500 10px/1 "Pretendard",sans-serif; letter-spacing:.16em; padding:10px 14px; cursor:pointer}
   #logPosts .lback:hover{border-color:var(--red); color:#fff}
@@ -1581,7 +1600,20 @@ b,strong{color:var(--white);font-weight:700}
 
   // ============ LOG (한 번에 올린 이미지 묶음 = 작은 썸네일 하나, 누르면 ‹ › 로 한 장씩) ============
   // LOG 글: LOG 탭 안에서 목록 → 글 읽기 (새 창 없이)
-  let logSel = null, logSub = '';
+  let logSel = null, logSub = '', logPage = 1;
+  const LPER = 10; // 한 페이지에 보여줄 LOG 글 수
+  const lslideHtml = imgs => {
+    const n = imgs.length; if(!n) return '';
+    return `<div class="lslide" data-n="${n}" data-i="0"><div class="lsf"><div class="lsv"><div class="lst">${imgs.map(s => `<figure><img src="${esc(imgSrc(s))}" alt="" draggable="false" loading="lazy"></figure>`).join('')}</div></div>`
+      + (n > 1 ? `<button class="lsn p" data-lsl="-1" aria-label="이전" disabled>‹</button><button class="lsn n" data-lsl="1" aria-label="다음">›</button>` : '')
+      + `</div>` + (n > 1 ? `<div class="lsc">1 / ${n}</div>` : '') + `</div>`;
+  };
+  function lslideGo(box, i){
+    const n = Number(box.dataset.n); i = Math.max(0, Math.min(n - 1, i)); box.dataset.i = i;
+    box.querySelector('.lst').style.transform = `translateX(-${i * 100}%)`;
+    const c = box.querySelector('.lsc'); if(c) c.textContent = (i + 1) + ' / ' + n;
+    const p = box.querySelector('.lsn.p'), nx = box.querySelector('.lsn.n'); if(p) p.disabled = i <= 0; if(nx) nx.disabled = i >= n - 1;
+  }
   function drawLogPosts(){
     const host = $('#logPosts'); if(!host) return;
     const all = postsOf(LOGC), subs = [...new Set(all.map(p => (p.sub || '').trim()).filter(Boolean))];
@@ -1590,19 +1622,31 @@ b,strong{color:var(--white);font-weight:700}
     if(!list.some(p => p.id === logSel)) logSel = null;
     if(!logSel){
       const chips = subs.length ? `<div class="lcats"><button data-lsub="" class="${logSub ? '' : 'on'}">ALL<em>${all.length}</em></button>${subs.map(c => `<button data-lsub="${esc(c)}" class="${c === logSub ? 'on' : ''}">${esc(c.toUpperCase())}<em>${all.filter(p => (p.sub || '').trim() === c).length}</em></button>`).join('')}</div>` : '';
-      host.innerHTML = chips + (list.length ? `<div class="lplist">${list.map(p => `<div class="vi" data-lpost="${esc(p.id)}"><small>${esc(p.date)}</small><b>${p.pw ? '<svg class="plk" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>' : ''}${esc(p.title)}</b></div>`).join('')}</div>` : '');
+      const pages = Math.max(1, Math.ceil(list.length / LPER));
+      logPage = Math.max(1, Math.min(pages, logPage));
+      const view = list.slice((logPage - 1) * LPER, logPage * LPER);
+      const pager = pages > 1 ? `<div class="lpager"><button data-lpg="${logPage - 1}" ${logPage <= 1 ? 'disabled' : ''} aria-label="이전 페이지">‹</button>${Array.from({length:pages}, (_, k) => `<button data-lpg="${k + 1}" class="${k + 1 === logPage ? 'on' : ''}">${k + 1}</button>`).join('')}<button data-lpg="${logPage + 1}" ${logPage >= pages ? 'disabled' : ''} aria-label="다음 페이지">›</button></div>` : '';
+      host.innerHTML = chips + (list.length ? `<div class="lplist">${view.map(p => `<div class="vi" data-lpost="${esc(p.id)}"><small>${esc(p.date)}</small><b>${p.pw ? '<svg class="plk" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>' : ''}${esc(p.title)}</b></div>`).join('')}</div>${pager}` : '');
       return;
     }
     const i = list.findIndex(p => p.id === logSel), p = list[i];
+    logPage = Math.floor(i / LPER) + 1; // 돌아갈 때 이 글이 있던 페이지로
     const fsz = n => n >= 1048576 ? (n/1048576).toFixed(n >= 10485760 ? 0 : 1) + 'MB' : Math.max(1, Math.round(n/1024)) + 'KB';
     const fext = n => ((/\.([^.]+)$/.exec(n || '') || [])[1] || 'FILE').slice(0,5).toUpperCase();
     const atts = f => (f || []).length ? `<div class="atts"><div class="ah"><b>ATTACHMENTS</b> 첨부파일 ${f.length}</div>${f.map(x => `<div class="att"><span class="ext">${esc(fext(x.name))}</span><span class="nm" title="${esc(x.name)}">${esc(x.name)}</span><span class="sz">${x.size ? fsz(x.size) : ''}</span><a class="dl" href="${esc(imgSrc(x.src))}" download="${esc(x.name)}"><svg viewBox="0 0 12 12"><path d="M6 1v7M3 5.5 6 8.5 9 5.5M1.5 11h9"/></svg>DOWNLOAD</a></div>`).join('')}</div>` : '';
     const nav = `<div class="vnav"><button data-lstep="1" ${i >= list.length-1 ? 'disabled' : ''}>◂ PREV</button><button data-lstep="-1" ${i <= 0 ? 'disabled' : ''}>NEXT ▸</button></div>`;
     host.innerHTML = `<div class="vread lreader"><button class="lback" data-lback>◂ LIST</button>` + (isLocked(p)
       ? lockedView(p, i, list).replace(/data-step/g, 'data-lstep')
-      : `<span class="tg">${esc((p.sub || '').trim() ? p.sub.trim().toUpperCase() : catOf(p.cat).name.toUpperCase())}</span><h2>${esc(p.title)}</h2><div class="dt">${esc(p.date)}</div><div class="pb">${postHtml(p.body)}</div>${(p.images || []).length ? `<div class="pimgs">${p.images.map(s => `<img src="${esc(imgSrc(s))}" alt="" loading="lazy">`).join('')}</div>` : ''}${atts(p.files)}${nav}`) + `</div>`;
+      : `<span class="tg">${esc((p.sub || '').trim() ? p.sub.trim().toUpperCase() : catOf(p.cat).name.toUpperCase())}</span><h2>${esc(p.title)}</h2><div class="dt">${esc(p.date)}</div><div class="pb">${postHtml(p.body)}</div>${lslideHtml(p.images || [])}${atts(p.files)}${nav}`) + `</div>`;
     host.querySelectorAll('script').forEach(o => { const n = document.createElement('script'); [...o.attributes].forEach(at => n.setAttribute(at.name, at.value)); n.textContent = o.textContent; o.replaceWith(n); });
   }
+  // 슬라이드 스와이프 (모바일)
+  (() => {
+    let x0 = null, box = null;
+    const host = document.getElementById('logPosts'); if(!host) return;
+    host.addEventListener('touchstart', e => { box = e.target.closest('.lslide'); x0 = box ? e.touches[0].clientX : null; }, {passive:true});
+    host.addEventListener('touchend', e => { if(x0 === null || !box) return; const dx = e.changedTouches[0].clientX - x0; if(Math.abs(dx) > 40) lslideGo(box, Number(box.dataset.i) + (dx < 0 ? 1 : -1)); x0 = null; box = null; });
+  })();
   function goLog(id){
     logSel = id || null; drawLogPosts();
     const b = document.querySelector('#nav button[data-t="log"]'); if(b) b.click();
@@ -1611,7 +1655,9 @@ b,strong{color:var(--white);font-weight:700}
   const askLockLog = () => { const p = DATA.posts.find(x => x.id === logSel); if(p && isLocked(p)) pwOpen(p.id); };
   document.addEventListener('click', e => {
     const host = $('#logPosts'); if(!host || !host.contains(e.target)) return;
-    const sc = e.target.closest('[data-lsub]'); if(sc){ logSub = sc.dataset.lsub; drawLogPosts(); return; }
+    const sc = e.target.closest('[data-lsub]'); if(sc){ logSub = sc.dataset.lsub; logPage = 1; drawLogPosts(); return; }
+    const pg = e.target.closest('[data-lpg]'); if(pg){ if(!pg.disabled){ logPage = Number(pg.dataset.lpg); drawLogPosts(); } return; }
+    const sl = e.target.closest('[data-lsl]'); if(sl){ const b = sl.closest('.lslide'); lslideGo(b, Number(b.dataset.i) + Number(sl.dataset.lsl)); return; }
     const o = e.target.closest('[data-lpost]'); if(o){ logSel = o.dataset.lpost; drawLogPosts(); document.querySelector('.main').scrollTop = 0; askLockLog(); return; }
     if(e.target.closest('[data-lback]')){ logSel = null; drawLogPosts(); document.querySelector('.main').scrollTop = 0; return; }
     const st = e.target.closest('[data-lstep]');
